@@ -1,0 +1,13 @@
+# ENV FILES
+*.env
+
+# GIT FOLDER
+.git/
+
+# LOG FILES
+*.log
+
+# NODE MODULES
+node_modules
+
+
