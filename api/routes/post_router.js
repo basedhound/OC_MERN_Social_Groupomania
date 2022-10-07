@@ -10,7 +10,7 @@ import {
 } from "../controllers/post_controller.js";
 
 import requireAuth from "../middleware/auth_middleware.js";
-import multer from "../middleware/multer_middleware.js"
+import multer from "../middleware/multer_middleware.js";
 
 const router = express.Router();
 
@@ -22,7 +22,7 @@ const router = express.Router();
 // Require auth for all routes
 router.use(requireAuth);
 
-router.post("/", multer, /* requireAuth, */ createPost);
+router.post("/", /* requireAuth, */ /* multer, */ createPost);
 router.put("/:id", /* requireAuth, */ updatePost);
 router.delete("/:id", /* requireAuth, */ deletePost);
 router.put("/:id/like", /* requireAuth, */ likePost);

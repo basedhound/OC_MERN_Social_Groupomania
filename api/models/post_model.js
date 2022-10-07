@@ -8,13 +8,10 @@ const PostSchema = new mongoose.Schema(
       },
       desc: {
          type: String,
-         required: true,
       },
-      image: {
-         src: {
+      image: {         
             type: String,
-         },
-      },
+      },      
       likes: {
          type: [],
       },

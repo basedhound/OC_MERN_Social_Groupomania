@@ -13,6 +13,7 @@ import { dp, likeIcon, likeOutlined } from "../../assets";
 import "./post.css";
 
 const Post = ({ post }) => {
+   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
    // Context
    const { dispatch } = usePostsContext();
    const { user: currentUser } = useAuthContext();
@@ -123,8 +124,6 @@ const Post = ({ post }) => {
       Modifier: "",
    };   
 
-
-
    return (
       <article
          className="post halfborder single" /* or "post gradient-border" */
@@ -150,7 +149,9 @@ const Post = ({ post }) => {
          <div className="post__details">
             {post.desc}
 
-            <div className="post__details">{post.image}</div>
+            <div className="post__details">
+            <img className="post__image" src={PF + post.image} alt="" />
+            </div>
          </div>
          <div className="post__footer">
             <div className="post__reactions">

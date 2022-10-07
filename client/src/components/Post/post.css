@@ -63,16 +63,12 @@ p {
 	display: none;
 }
 
-.single .post__image {
-	max-height: 68vh;
-}
-
 .post__image {
 	max-height: 60vh;
 	width: 100%;
 	border-radius: 10px;
 	object-fit: contain;
-	background-color: var(--primary-600);
+	background-color: var(--primary-500);
 }
 
 .post__footer {
