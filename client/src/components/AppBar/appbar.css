@@ -1,0 +1,127 @@
+/* Contains Logo + AppBar */
+.appbar--container {
+   display: flex;
+   flex-direction: column;
+   gap: 1rem;
+   height: 9rem;
+   z-index: 2;
+   background-color: var(--primary-400);
+   position: sticky;
+   top: 0;
+}
+
+/* Logo */
+.appbar--container > img {
+   align-self: center;
+   width: 17rem;
+   margin-top: 1rem;
+}
+
+.appbar {
+   display: flex;
+   align-items: center;
+   gap: 1rem;
+}
+
+.appbar a {
+   display: flex;
+   align-items: center;
+}
+
+/* Search form */
+.appbar form {
+   display: flex;
+   align-items: center;
+   padding: 0.75rem 1.5rem;
+   background-color: var(--primary-500);
+   width: 50%;
+   max-width: 500px;
+   border-radius: 10px;
+   gap: 1rem;
+   position: relative;
+}
+
+.appbar form button {
+   width: 20px;
+   cursor: pointer;
+}
+
+.appbar form input {
+   color: white;
+   width: 85%;
+}
+
+/* User profile (right) */
+.appbar__profile {
+   display: flex;
+   gap: 1rem;
+   align-items: center;
+   margin-left: auto;
+}
+
+.appbar__profile__dp {
+   width: 40px;
+   aspect-ratio: 1;
+   object-fit: cover;
+   border-radius: 50%;
+}
+.appbar__profile a {
+   height: 40px;
+}
+
+.appbar__profile .chat {
+   height: 85%;
+}
+
+/* .appbar__profile__logout {
+	width: 22px;
+	margin-bottom: 5px;
+} */
+
+/* Icons (left) */
+.close {
+   transform: scale(1.5);
+   aspect-ratio: 1;
+}
+
+.hamburger {
+   display: none;
+   width: 22px;
+}
+
+.hamburger > img {
+   width: 100%;
+}
+
+.home-icon {
+   width: 30px;
+   transform: translateY(-2px);
+}
+
+/* Responsive : Media queries */
+@media (max-width: 1200px) {
+   .hamburger {
+      display: flex;
+      align-items: center;
+   }
+}
+
+@media (max-width: 800px) {
+   .appbar {
+      gap: 0.5rem;
+   }
+   .appbar form {
+      padding: 0.75rem;
+      flex: 1;
+   }
+   .hamburger {
+      display: flex;
+      align-items: center;
+   }
+   .appbar__profile {
+      gap: 1rem;
+   }
+   /* .home-icon {
+		display: none;
+	} */
+}

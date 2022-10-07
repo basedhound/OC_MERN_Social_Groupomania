@@ -1,0 +1,60 @@
+.online {
+	height: 100%;
+	overflow: scroll;
+	background-color: var(--primary-500);
+	border-radius: 10px;
+	color: white;
+	scrollbar-width: none; /*moz fix*/
+	padding: 2rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1.5rem;
+}
+
+.online::-webkit-scrollbar {
+	display: none;
+}
+
+.online h2 {
+	font-size: 1.1rem;
+	font-weight: 500;
+}
+
+.online .user {
+	position: relative;
+	display: flex;
+	color: white;
+	align-items: center;
+	gap: 1rem;
+	transition: transform 0.2s linear;
+}
+
+.user:not(.online-users .user):hover {
+	transform: translateX(10px);
+}
+
+.online img {
+	width: 2rem;
+}
+
+.online h3 {
+	font-weight: 500;
+	font-size: 0.8rem;
+}
+
+.online-users {
+	display: flex;
+	gap: 0.5rem;
+	width: 100%;
+	overflow-x: auto;
+	flex-shrink: 0;
+	scrollbar-width: 0;
+}
+
+.online-users::-webkit-scrollbar {
+	display: none;
+}
+
+.online-users > * {
+	flex-shrink: 0;
+}
