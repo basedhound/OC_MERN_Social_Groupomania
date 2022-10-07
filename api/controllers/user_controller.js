@@ -63,7 +63,7 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
    const id = req.params.id;
    const { _id, admin } = req.body;
-   console.log(req.body);
+   // console.log(req.body);
 
    if (id === _id || admin) {
       try {

@@ -8,27 +8,26 @@ import { closeIcon } from "../../assets/index";
 import "./createpost.css";
 
 const CreatePost = ({ post, id, close }) => {
+   //? Context
    const { dispatch } = usePostsContext();
    const { user } = useAuthContext();
-   // console.log(user)
-   
    //? Post
+   const imageRef = useRef();     
    const [desc, setDesc] = useState("");
    const [image, setImage] = useState(null);
+   //? Error
    const [error, setError] = useState(null)
    const [emptyFields, setEmptyFields] = useState([])
 
-   //? Frontend image preview
-/*        const imageRef = useRef();
-   const loadImage = async (e) => {
-      if (e.target.files && e.target.files[0]) {
-         let img = e.target.files[0];
-         setImage({
-            image: URL.createObjectURL(img),
-         });
+   //? Preview image
+   const onImageChange = (event) => {
+      if (event.target.files && event.target.files[0]) {
+         let img = event.target.files[0];
+         setImage(img);
       }
-   } */
+   };
 
+   //? Submit post
    const handleSubmit = async (e) => {
       e.preventDefault();
 
@@ -37,16 +36,17 @@ const CreatePost = ({ post, id, close }) => {
          return
       }
 
-      const newPost = new FormData() 
-      newPost.append("userId", user.user._id)
-      newPost.append("desc", desc)
-
+      // (without picture)
       // const newPost = {
       //    userId: user.user._id,
       //    desc: desc,
       // };
 
-      console.log(newPost.entries()[0])
+      const newPost = new FormData() 
+      newPost.append("userId", user.user._id)
+      newPost.append("desc", desc)
+
+      // console.log(newPost.entries()[0])
       const response = await fetch("/api/posts", {
          method: "POST",
          // body: JSON.stringify(newPost),
@@ -71,10 +71,6 @@ const CreatePost = ({ post, id, close }) => {
          setEmptyFields([])
          dispatch({type: 'CREATE_POST', payload:json})
       }
-
-
-
-
    };
 
    return (
@@ -86,37 +82,33 @@ const CreatePost = ({ post, id, close }) => {
                value={desc}
                onChange={(e) => setDesc(e.target.value)}
             />
-
+            {image && (
             <div className="uploaded-image">
-               {/* <img src="" alt="uploaded file" /> */}
-               <div className="close-icon" /* onClick={} */>
-                  {/* <img src={closeIcon} alt="remove" /> */}
+            <img src={URL.createObjectURL(image)}/>               
+               <div className="close-icon" onClick={() => setImage(null)}>
+                  {<img src={closeIcon} alt="remove" />}
                </div>
-            </div>
+            </div>)}
 
             <div className="btns">
                <label htmlFor={"image"} aria-label="select file">
                   <div>
-                     <img src={fileIcon} alt="select file" />
+                     <img src={fileIcon} alt="select file" onClick={() => imageRef.current.click()} />
                   </div>
                </label>
 
                <input
                   type="file"
-                  /* id={} */
+                  name="myImage"
                   accept="image/png, image/jpeg, image/jpg, image/webp"
-                  /* ref={imageRef}
-                  onChange={loadImage} */
+                  ref={imageRef}
+                  onChange={onImageChange}
                />
                <button type="submit" aria-label="submit">
                   <img src={sendIcon} alt="send" />
                </button>
             </div>
-            {image && (
-               <div className="uploaded-image">
-                  <img src={image.image} alt="remove" />
-               </div>
-            )}
+
          </form>
       </article>
    );

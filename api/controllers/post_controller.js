@@ -5,7 +5,7 @@ import User from "../models/user_model.js";
 //? Create
 export const createPost = async (req, res) => {
    const newPost = new Post(req.body);
-   console.log("body", req.body)
+   // console.log("body", req.body)
 
    try {
       await newPost.save();
@@ -37,7 +37,7 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
    const postId = req.params.id;
    const { userId, admin } = req.body;
-   console.log("delete", req.body)
+   // console.log("delete", req.body)
 
 
    try {
@@ -57,7 +57,7 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
    const postId = req.params.id;
    const { userId } = req.body;
-   console.log(req.body);
+   // console.log(req.body);
    try {
       const post = await Post.findById(postId);
       if (!post.likes.includes(userId)) {
