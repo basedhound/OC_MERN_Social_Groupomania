@@ -1,25 +1,28 @@
-import React, {useState} from "react";
 import { useLogout } from "../../hooks/useLogout";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { format } from "date-fns";
+import Auth from "../../pages/Auth/Auth";
+// Style
 import {
    dp,
    clockIcon,
-   cakeIcon,
-   locationIcon,
+   /* cakeIcon, */
+   /* locationIcon, */
    mailIcon,
    cameraIcon,
 } from "../../assets";
 import "./profilecard.css";
-import { useAuthContext } from "../../hooks/useAuthContext";
-import {format, formatDistanceToNow} from "date-fns";
-
+import { Navigate } from "react-router-dom";
 
 const ProfileCard = () => {
-   const {user : currentUser} = useAuthContext();
+   //? Context
+   const { user: auth } = useAuthContext();
    // console.log(user.user)
 
-   const { logout } = useLogout();   
+   //? Logout Button
+   const { logout } = useLogout();
    const handleClick = () => {
-      logout();    
+      logout();
    };
 
    return (
@@ -36,24 +39,35 @@ const ProfileCard = () => {
                   <img src={cameraIcon} alt="change_profile_image" />
                </div>
             </div>
-            <h1>{currentUser?.user?.firstname + " " + currentUser?.user?.lastname }</h1>
-            <h2>{currentUser?.user?.about}</h2>
+            <h1>
+               {auth.user.firstname && auth.user.lastname
+                  ? auth.user.firstname + " " + auth.user.lastname
+                  : ""}
+            </h1>
+            <h2>{auth.user.about ? auth.user.about : ""}</h2>
          </header>
          <article>
             <div className="profilecard__info">
                <img src={clockIcon} alt="join date" />
-               <h3>Inscription : {format(new Date(currentUser?.user?.createdAt),'dd/MM/yyyy', {
-                     addSuffix: true,
-                  })}</h3>
+               <h3>
+                  Inscription :{" "}
+                  {format(
+                     new Date(auth.user.createdAt ? auth.user.createdAt : ""),
+                     "dd/MM/yyyy",
+                     {
+                        addSuffix: true,
+                     }
+                  )}
+               </h3>
             </div>
             <div className="profilecard__info">
                <img src={mailIcon} alt="mail" />
-               <h3>{currentUser?.user?.email}</h3>
+               <h3>{auth.user.email ? auth.user.email : ""}</h3>
             </div>
          </article>
 
-         <div className="btn-group">            
-               <button onClick={handleClick}>Déconnexion</button>            
+         <div className="btn-group">
+            <button onClick={handleClick}>Déconnexion</button>
             <button>Modifier</button>
          </div>
       </section>

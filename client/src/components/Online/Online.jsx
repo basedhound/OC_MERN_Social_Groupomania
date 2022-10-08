@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useAuthContext } from "../../hooks/useAuthContext";
-
 // Style
 import { dp } from "../../assets";
 import "./online.css";
 import axios from "axios";
 
 const Online = () => {
-   const { user: currentUser } = useAuthContext();
    const [users, setUsers] = useState([]);
 
    useEffect(() => {
@@ -16,7 +13,7 @@ const Online = () => {
          try {
             const allUsers = await axios.get("api/users");
             setUsers(allUsers.data);
-            console.log(allUsers.data);
+            // console.log(allUsers.data);
          } catch (err) {
             console.log(err);
          }
@@ -28,8 +25,8 @@ const Online = () => {
       <section className="online">
          <h2>Utilisateurs ({users.length})</h2>
          {users &&
-            users.map((user) => (
-               <Link to="/">
+            users.map((user)  => (
+               <Link to="/" key={user._id} >
                   <div className="user">
                      <div>
                         <img

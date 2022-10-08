@@ -10,7 +10,7 @@ import "./createpost.css";
 const CreatePost = (/* { post, id, close } */) => {
    //? Context
    const { dispatch } = usePostsContext();
-   const { user } = useAuthContext();
+   const { user: currentUser } = useAuthContext();
    //? Post
    const imageRef = useRef();
    const [desc, setDesc] = useState("");
@@ -31,7 +31,7 @@ const CreatePost = (/* { post, id, close } */) => {
       // newPost.append("userId", user.user._id)
       // newPost.append("desc", desc)
       const newPost = {
-         userId: user.user._id,
+         userId: currentUser.user._id,
          desc: desc,
       };
       if (file) {
@@ -44,7 +44,7 @@ const CreatePost = (/* { post, id, close } */) => {
          try {
             await axios.post("/api/upload", data, {
                headers: {
-                  Authorization: `Bearer ${user.token}`,
+                  Authorization: `Bearer ${currentUser.token}`,
                },
             });
          } catch (err) {}
@@ -52,11 +52,10 @@ const CreatePost = (/* { post, id, close } */) => {
       try {
          await axios.post("/api/posts", newPost, {
             headers: {
-               Authorization: `Bearer ${user.token}`,
+               Authorization: `Bearer ${currentUser.token}`,
             },
          });
-            window.location.reload();
-         
+         window.location.reload();
       } catch (err) {}
    };
    // // console.log(newPost.entries()[0])
@@ -79,10 +78,6 @@ const CreatePost = (/* { post, id, close } */) => {
    //    }
    // };
 
-
-
-
-   
    return (
       <article className="createpost gradient-border">
          <form onSubmit={handleSubmit}>

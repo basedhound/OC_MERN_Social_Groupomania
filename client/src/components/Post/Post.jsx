@@ -1,16 +1,14 @@
 // React
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-
 import Input from "../Input/Input";
 import Options from "../Options/Options";
-// Context
 import { usePostsContext } from "../../hooks/usePostsContext";
 import { useAuthContext } from "./../../hooks/useAuthContext";
 //Style
-import { format, formatDistanceToNow } from "date-fns";
+import { format /* formatDistanceToNow */ } from "date-fns";
 import { dp, likeIcon, likeOutlined } from "../../assets";
 import "./post.css";
+import { Link } from 'react-router-dom';
 
 const Post = ({ post }) => {
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
@@ -19,7 +17,6 @@ const Post = ({ post }) => {
    const { user: currentUser } = useAuthContext();
    // Errors
    const [error, setError] = useState(null);
-   const [emptyFields, setEmptyFields] = useState([]);
 
    //? Fetch user
    const [user, setUser] = useState({});
@@ -38,7 +35,7 @@ const Post = ({ post }) => {
          // console.log(json)
       };
       fetchUser();
-   }, [post.userId]);
+   }, [post.userId, currentUser.token]);
 
    /*    //? Fetch user (axios)
    const [user, setUser] = useState({});
@@ -105,7 +102,6 @@ const Post = ({ post }) => {
 
       if (!deleteRes.ok) {
          setError(json.error);
-         setEmptyFields();
       }
 
       if (deleteRes.ok) {
@@ -126,11 +122,15 @@ const Post = ({ post }) => {
          className="post halfborder single" /* or "post gradient-border" */
       >
          <header>
-            {/* <Link to={`/profile/${user.username}`}> */}
-            <img src={dp} alt="profileImage" className="post__dp roundimage" />
-            {/* </Link> */}
+            <Link to="/">
+            <img
+               src={user.profilePicture ? PF + user.profilePicture : dp}
+               alt="profileImage"
+               className="post__dp roundimage"
+            />
+            </Link>
             <div>
-               <h3>{user.firstname + " " + user.lastname || "Username"}</h3>
+               <h3>{user.firstname && user.lastname ? user.firstname + " " + user.lastname : ""}</h3>
                <p>
                   {format(new Date(post?.createdAt), "dd/MM/yyyy", {
                      addSuffix: true,
@@ -143,7 +143,11 @@ const Post = ({ post }) => {
             {post.desc}
 
             <div className="post__details">
-               <img className="post__image" src={PF + post.image} alt="" />
+               <img
+                  className="post__image"
+                  alt=""
+                  src={post.image ? PF + post.image : null}
+               />
             </div>
          </div>
          <div className="post__footer">

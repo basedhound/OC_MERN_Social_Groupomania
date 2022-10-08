@@ -44,7 +44,7 @@ const UserSchema = new mongoose.Schema(
       about: {
          type: String,
          maxlength: 20,
-         default: "À propos",
+         default: "",
       },
    },
    { timestamps: true }
