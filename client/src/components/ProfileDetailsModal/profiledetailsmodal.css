@@ -1,0 +1,35 @@
+.modal-details {
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   gap: 1.5rem;
+   color: white;
+   padding: 1rem;
+}
+
+.modal-details__input {
+   border: none;
+   outline: none;
+   background-color: var(--primary-600);
+   color: white;
+   border-radius: 8px;
+   padding: 0.5rem;
+   width: 75%;
+   flex: 1;
+}
+
+.modal-details button {
+	background: var(--primary-500);
+   border: 1px solid var(--primary-400);
+	width: 50%;
+	color: white;
+	padding: 0.75rem;
+	border-radius: 10px;   
+}
+
+.modal-details button:hover {
+	background: var(--primary-600);
+   border: 1px solid var(--primary-400);
+}
+

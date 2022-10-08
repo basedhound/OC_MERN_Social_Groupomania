@@ -1,7 +1,6 @@
 import { useLogout } from "../../hooks/useLogout";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import { format } from "date-fns";
-import Auth from "../../pages/Auth/Auth";
 // Style
 import {
    dp,
@@ -12,31 +11,51 @@ import {
    cameraIcon,
 } from "../../assets";
 import "./profilecard.css";
-import { Navigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import ProfileDetailsModal from "../ProfileDetailsModal/ProfileDetailsModal";
 
 const ProfileCard = () => {
    //? Context
    const { user: auth } = useAuthContext();
-   // console.log(user.user)
+   const imageRef = useRef();
+
+   //? Modals
+   const [modalDetails, setModalDetails] = useState(false);
 
    //? Logout Button
    const { logout } = useLogout();
-   const handleClick = () => {
+   const handleLogout = () => {
       logout();
    };
+
+   //? Profile Picture
+   const handleProfilePicture = () => {};
 
    return (
       <section className="profilecard gradient-border">
          <header>
             <div>
                <img
-                  src={dp}
-                  alt="profile_image"
+                  src={auth.user.profilePicture ? auth.user.profilePicture : dp}
+                  alt="Photo de profil"
                   className="profilecard__dp roundimage"
                />
 
-               <div className="dp-upload">
-                  <img src={cameraIcon} alt="change_profile_image" />
+               <div className="pp-upload">
+                  <label htmlFor={"image"} aria-label="select file">
+                     <img
+                        className="pp-icon"
+                        src={cameraIcon}
+                        alt="Modifier photo de profil"
+                        onClick={() => imageRef.current.click()}
+                     />
+                  </label>
+                  <input
+                     type="file"
+                     accept="image/png, image/jpeg, image/jpg, image/webp"
+                     ref={imageRef}
+                     onChange={handleProfilePicture}
+                  />
                </div>
             </div>
             <h1>
@@ -50,7 +69,7 @@ const ProfileCard = () => {
             <div className="profilecard__info">
                <img src={clockIcon} alt="join date" />
                <h3>
-                  Inscription :{" "}
+                  Inscrit le{" "}
                   {format(
                      new Date(auth.user.createdAt ? auth.user.createdAt : ""),
                      "dd/MM/yyyy",
@@ -67,8 +86,12 @@ const ProfileCard = () => {
          </article>
 
          <div className="btn-group">
-            <button onClick={handleClick}>Déconnexion</button>
-            <button>Modifier</button>
+            <button onClick={handleLogout}>Déconnexion</button>
+            <button onClick={() => setModalDetails(true)}>Modifier</button>
+            <ProfileDetailsModal
+               modalDetails={modalDetails}
+               setModalDetails={setModalDetails}
+            />
          </div>
       </section>
    );

@@ -9,12 +9,14 @@ import { AuthContextProvider } from "./context/AuthContext";
 import { Provider } from 'react-redux';
 import { store } from './app/store';
 // Utilities
+import { MantineProvider } from '@mantine/core';
 import App from "./App";
 import "./index.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
    // <React.StrictMode>
+   <MantineProvider theme={{ colorScheme: 'dark' }} withGlobalStyles >
    <AuthContextProvider>
    <Provider store={store}>
       <PostsContextProvider>
@@ -23,6 +25,7 @@ root.render(
    </BrowserRouter>
       </PostsContextProvider>
    </Provider>
-   </AuthContextProvider>,
+   </AuthContextProvider>
+   </MantineProvider>,
    // </React.StrictMode>,
 );

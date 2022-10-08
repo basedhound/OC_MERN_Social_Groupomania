@@ -41,6 +41,7 @@
 	/* -webkit-tap-highlight-color: transparent; */
 	/* color: black !important; */
    /* border: 1px solid red; */
+   caret-color: transparent;
 }
 
 body {
@@ -73,6 +74,11 @@ svg{
 -moz-user-select: none;
 -o-user-select: none;
 user-select: none;
+}
+
+input,
+textarea {
+   caret-color: white;
 }
 
 button,
@@ -184,7 +190,7 @@ input::placeholder {
 	background: linear-gradient(145deg, var(--primary-600), transparent);
 }
 
-.green {
+/* .green {
 	position: relative;
 }
 
@@ -197,38 +203,8 @@ input::placeholder {
 	border-radius: 50%;
 	right: 0;
 	bottom: 0;
-}
-
-
-/* Datalist.jsx - Email */
-/* .email {
-	position: relative;
-}
-
-.email-datalist {
-	position: absolute;
-	background-color: var(--primary-400);
-	display: grid;
-	border-radius: 10px;
-	inset: 80% 0 auto 0;
-	max-height: 12rem;
-	overflow: auto;
-}
-
-.email-datalist option {
-	padding-inline: 1rem;
-	display: block;
-	height: 3rem;
-	display: grid;
-	align-items: center;
-	cursor: pointer;
-	transition: background-color 0.2s linear;
-	font-size: 0.8rem;
-}
-
-.email-datalist option:hover {
-	background-color: var(--primary-600);
 } */
+
 
 
 
