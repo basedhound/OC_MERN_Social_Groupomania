@@ -10,7 +10,7 @@ import {
 } from "../../assets";
 import "./profilecard.css";
 import { useAuthContext } from "../../hooks/useAuthContext";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import {format, formatDistanceToNow} from "date-fns";
 
 
 const ProfileCard = () => {
@@ -42,7 +42,7 @@ const ProfileCard = () => {
          <article>
             <div className="profilecard__info">
                <img src={clockIcon} alt="join date" />
-               <h3>{formatDistanceToNow(new Date(currentUser?.user?.createdAt), {
+               <h3>Inscription : {format(new Date(currentUser?.user?.createdAt),'dd/MM/yyyy', {
                      addSuffix: true,
                   })}</h3>
             </div>

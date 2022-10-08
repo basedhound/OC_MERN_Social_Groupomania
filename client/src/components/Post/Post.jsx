@@ -8,7 +8,7 @@ import Options from "../Options/Options";
 import { usePostsContext } from "../../hooks/usePostsContext";
 import { useAuthContext } from "./../../hooks/useAuthContext";
 //Style
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { format, formatDistanceToNow } from "date-fns";
 import { dp, likeIcon, likeOutlined } from "../../assets";
 import "./post.css";
 
@@ -18,29 +18,29 @@ const Post = ({ post }) => {
    const { dispatch } = usePostsContext();
    const { user: currentUser } = useAuthContext();
    // Errors
-   const [error, setError] = useState(null)
-   const [emptyFields, setEmptyFields] = useState([])
+   const [error, setError] = useState(null);
+   const [emptyFields, setEmptyFields] = useState([]);
 
    //? Fetch user
    const [user, setUser] = useState({});
    useEffect(() => {
       const fetchUser = async () => {
-      const response = await fetch(`/api/users/${post.userId}`, {
-         method: "GET",
-         body: JSON.stringify(),
-         headers: {
-            "Content-Type": "application/json",
-            'Authorization': `Bearer ${currentUser.token}`
-         },
-      });
-      const json = await response.json()
-      setUser(json);
-      // console.log(json)
-   };
-   fetchUser();
-}, [post.userId]);
+         const response = await fetch(`/api/users/${post.userId}`, {
+            method: "GET",
+            body: JSON.stringify(),
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${currentUser.token}`,
+            },
+         });
+         const json = await response.json();
+         setUser(json);
+         // console.log(json)
+      };
+      fetchUser();
+   }, [post.userId]);
 
-/*    //? Fetch user (axios)
+   /*    //? Fetch user (axios)
    const [user, setUser] = useState({});
    useEffect(() => {
       const fetchUser = async () => {
@@ -52,13 +52,13 @@ const Post = ({ post }) => {
    }, [post.userId]);
  */
 
-
    //? Likes
    const [like, setLike] = useState(post.likes.length);
-   const [liked, setLiked] = useState(post.likes.includes(currentUser.user._id)); 
-   // fetch 
+   const [liked, setLiked] = useState(
+      post.likes.includes(currentUser.user._id)
+   );
+   // fetch
    const handleLike = async () => {
-
       const likeReq = {
          userId: currentUser.user._id,
       };
@@ -68,7 +68,7 @@ const Post = ({ post }) => {
          body: JSON.stringify(likeReq),
          headers: {
             "Content-Type": "application/json",
-            'Authorization': `Bearer ${currentUser.token}`
+            Authorization: `Bearer ${currentUser.token}`,
          },
       });
       // const json = await likeRes.json();
@@ -81,9 +81,6 @@ const Post = ({ post }) => {
       setLiked(post.likes.includes(currentUser.user._id));
    }, [currentUser.user._id, post.likes]);
 
-
-
-
    //? Options : DELETE / UPDATE
    // Delete
    const handleDelete = async () => {
@@ -93,7 +90,7 @@ const Post = ({ post }) => {
 
       const deleteReq = {
          userId: currentUser.user._id,
-         admin: false
+         admin: false,
       };
 
       const deleteRes = await fetch("/api/posts/" + post._id, {
@@ -101,7 +98,7 @@ const Post = ({ post }) => {
          body: JSON.stringify(deleteReq),
          headers: {
             "Content-Type": "application/json",
-            'Authorization': `Bearer ${currentUser.token}`
+            Authorization: `Bearer ${currentUser.token}`,
          },
       });
       const json = await deleteRes.json();
@@ -122,7 +119,7 @@ const Post = ({ post }) => {
    const options = {
       Supprimer: handleDelete,
       Modifier: "",
-   };   
+   };
 
    return (
       <article
@@ -130,16 +127,12 @@ const Post = ({ post }) => {
       >
          <header>
             {/* <Link to={`/profile/${user.username}`}> */}
-               <img
-                  src={dp}
-                  alt="profileImage"
-                  className="post__dp roundimage"
-               />
+            <img src={dp} alt="profileImage" className="post__dp roundimage" />
             {/* </Link> */}
             <div>
                <h3>{user.firstname + " " + user.lastname || "Username"}</h3>
                <p>
-                  {formatDistanceToNow(new Date(post?.createdAt), {
+                  {format(new Date(post?.createdAt), "dd/MM/yyyy", {
                      addSuffix: true,
                   })}
                </p>
@@ -150,14 +143,16 @@ const Post = ({ post }) => {
             {post.desc}
 
             <div className="post__details">
-            <img className="post__image" src={PF + post.image} alt="" />
+               <img className="post__image" src={PF + post.image} alt="" />
             </div>
          </div>
          <div className="post__footer">
             <div className="post__reactions">
-               <img src={liked ? likeIcon : likeOutlined} 
-               alt="like" 
-               onClick={handleLike} />
+               <img
+                  src={liked ? likeIcon : likeOutlined}
+                  alt="like"
+                  onClick={handleLike}
+               />
                <p>{like}</p>
             </div>
             <Input />

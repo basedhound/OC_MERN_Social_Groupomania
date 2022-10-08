@@ -46,13 +46,18 @@ export const deletePost = async (req, res) => {
    try {
       const post = await Post.findById(postId);
       // console.log(post)
-      if (post.userId === userId || admin) {  
-         const filename = post.image.split("public/images/")[0];
-         // console.log(filename)
-         fs.unlink(`public/images/${filename}`, () => {       
-         post.deleteOne();
-      })
-         res.status(200).json(post);
+      if (post.userId === userId || admin) {
+         if (post.image) {
+            const filename = post.image.split("public/images/")[0];
+            // console.log(filename)
+            fs.unlink(`public/images/${filename}`, () => {
+               post.deleteOne();
+               res.status(200).json(post);
+            });
+         } else {
+            post.deleteOne();
+            res.status(200).json(post);
+         }
       } else {
          res.status(403).json("You can only delete your own posts !");
       }
