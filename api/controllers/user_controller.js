@@ -2,6 +2,7 @@ import User from "../models/user_model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+//? Get all users
 export const getUsers = async (req, res) => {
    try {
       let users = await User.find();
@@ -15,6 +16,7 @@ export const getUsers = async (req, res) => {
    }
 };
 
+//? Get a specific user
 export const getUser = async (req, res) => {
    const id = req.params.id;
    try {

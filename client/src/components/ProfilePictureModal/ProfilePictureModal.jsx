@@ -3,13 +3,55 @@ import { useAuthContext } from "../../hooks/useAuthContext";
 import "./profilepicturemodal.css";
 import { dp, fileIcon } from "../../assets";
 import { Modal, useMantineTheme } from "@mantine/core";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import axios from "axios";
 
-function ProfilePictureModal({ modalPicture, setModalPicture }) {
-   const { user: auth } = useAuthContext();
+function ProfilePictureModal({ modalPicture, setModalPicture, data }) {
+   const theme = useMantineTheme();
+   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+
+
    const imageRef = useRef();
 
-   const theme = useMantineTheme();
+   const { user: auth } = useAuthContext();
+   const { password, ...other } = data;
+   // console.log(data)
+   const [formData, setFormData] = useState(other);
+
+   // //? Update Pictures
+   const [profilePicture, setprofilePicture] = useState(null);
+   const handleImages = (event) => {
+      if (event.target.files && event.target.files[0]) {
+         let img = event.target.files[0];
+         setprofilePicture(img);
+      }
+   };
+
+   //? Submit : Update Confirmation
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+      let UserData = formData;
+      const data = new FormData();
+      const fileName = Date.now() + profilePicture.name;
+      data.append("name", fileName);
+      data.append("file", profilePicture);
+      UserData.profilePicture = fileName;
+      try {
+         const res = await axios.put(
+            "/api/users/" + `${auth.user._id}`,
+            UserData,
+            {
+               headers: {
+                  Authorization: `Bearer ${auth.token}`,
+               },
+            }
+         );
+         console.log(res.data.user);
+         // dispatch({ type: "UPDATE", payload: res.data.user });
+         setModalPicture(false);
+         // window.location.reload();
+      } catch (err) {}
+   };
 
    return (
       <Modal
@@ -20,31 +62,38 @@ function ProfilePictureModal({ modalPicture, setModalPicture }) {
          }
          overlayOpacity={0.55}
          overlayBlur={3}
-         background-color="white"
          opened={modalPicture}
          onClose={() => setModalPicture(false)}>
-         <form className="modal-details">
+         <form action="" className="modal-details">
             <img
-               src={auth.user.profilePicture ? auth.user.profilePicture : dp}
+               src={auth.user.profilePicture ? PF + auth.user.profilePicture : dp}
                alt="profile_image"
                className="modal-picture roundimage"
             />
-            <div className="btns">
+
+            <div>
                <label htmlFor={"image"} aria-label="select file">
-                  <img
-                     src={fileIcon}
-                     alt="select file"
-                     onClick={() => imageRef.current.click()}
-                  />
+                  <div>
+                     <img
+                        src={fileIcon}
+                        alt="select file"
+                        onClick={() => imageRef.current.click()}
+                     />
+                  </div>
                </label>
+
                <input
                   type="file"
                   accept="image/png, image/jpeg, image/jpg, image/webp"
+                  name="profilePicture"
                   ref={imageRef}
-                  // onChange={onImageChange}
+                  onChange={handleImages}
                />
             </div>
-            <button type="submit">Confirmer</button>
+
+            <button type="submit" onClick={handleSubmit}>
+               Confirmer
+            </button>
          </form>
       </Modal>
    );

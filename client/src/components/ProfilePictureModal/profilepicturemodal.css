@@ -1,4 +1,13 @@
 .modal-picture {
-	height: 10rem;
+	height: 7rem;
 	border: 0.3rem solid var(--primary-400);
 }
+
+
+.test {
+display: flex;
+justify-content: center;
+align-items: center;
+position: relative
+}
+

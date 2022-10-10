@@ -8,15 +8,19 @@ import { useAuthContext } from "./../../hooks/useAuthContext";
 import { format /* formatDistanceToNow */ } from "date-fns";
 import { dp, likeIcon, likeOutlined } from "../../assets";
 import "./post.css";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import PostUpdateModal from "../PostUpdateModal/PostUpdateModal";
 
 const Post = ({ post }) => {
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
    // Context
    const { dispatch } = usePostsContext();
-   const { user: currentUser } = useAuthContext();
+   const { user: auth } = useAuthContext();
+
    // Errors
    const [error, setError] = useState(null);
+
+   const [updateModal, setUpdateModal] = useState(false);
 
    //? Fetch user
    const [user, setUser] = useState({});
@@ -27,7 +31,7 @@ const Post = ({ post }) => {
             body: JSON.stringify(),
             headers: {
                "Content-Type": "application/json",
-               Authorization: `Bearer ${currentUser.token}`,
+               Authorization: `Bearer ${auth.token}`,
             },
          });
          const json = await response.json();
@@ -35,7 +39,7 @@ const Post = ({ post }) => {
          // console.log(json)
       };
       fetchUser();
-   }, [post.userId, currentUser.token]);
+   }, [post.userId, auth.token]);
 
    /*    //? Fetch user (axios)
    const [user, setUser] = useState({});
@@ -51,13 +55,11 @@ const Post = ({ post }) => {
 
    //? Likes
    const [like, setLike] = useState(post.likes.length);
-   const [liked, setLiked] = useState(
-      post.likes.includes(currentUser.user._id)
-   );
+   const [liked, setLiked] = useState(post.likes.includes(auth.user._id));
    // fetch
    const handleLike = async () => {
       const likeReq = {
-         userId: currentUser.user._id,
+         userId: auth.user._id,
       };
 
       const likeRes = await fetch("/api/posts/" + post._id + "/like", {
@@ -65,7 +67,7 @@ const Post = ({ post }) => {
          body: JSON.stringify(likeReq),
          headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${currentUser.token}`,
+            Authorization: `Bearer ${auth.token}`,
          },
       });
       // const json = await likeRes.json();
@@ -75,46 +77,42 @@ const Post = ({ post }) => {
    };
    //? Already liked ?
    useEffect(() => {
-      setLiked(post.likes.includes(currentUser.user._id));
-   }, [currentUser.user._id, post.likes]);
+      setLiked(post.likes.includes(auth.user._id));
+   }, [auth.user._id, post.likes]);
 
-   //? Options : DELETE / UPDATE
+   //? Options : DELETE
    // Delete
    const handleDelete = async () => {
-      if (!currentUser) {
-         return;
-      }
-
       const deleteReq = {
-         userId: currentUser.user._id,
+         userId: auth.user._id,
          admin: false,
       };
-
-      const deleteRes = await fetch("/api/posts/" + post._id, {
-         method: "DELETE",
-         body: JSON.stringify(deleteReq),
-         headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${currentUser.token}`,
-         },
-      });
-      const json = await deleteRes.json();
-
-      if (!deleteRes.ok) {
-         setError(json.error);
-      }
-
-      if (deleteRes.ok) {
+      try {
+         if (auth.user.admin || auth.user._id === post.userId) {
+         const deleteRes = await fetch("/api/posts/" + post._id, {
+            method: "DELETE",
+            body: JSON.stringify(deleteReq),
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${auth.token}`,
+            },
+         });
+         const json = await deleteRes.json();
          dispatch({ type: "DELETE_POST", payload: json });
+      }} catch (err) {}
+   };
+
+   //? Options : UPDATE
+   // Delete
+   const handleUpdate = () => {
+      if (auth.user.admin || auth.user._id === post.userId) {
+         setUpdateModal(true);
       }
    };
-   // Update
-   // const editHandler = () => {
-   // 	dispatch(setEditingPost(post));
-   // };
+
    const options = {
       Supprimer: handleDelete,
-      Modifier: "",
+      Modifier: handleUpdate,
    };
 
    return (
@@ -123,21 +121,32 @@ const Post = ({ post }) => {
       >
          <header>
             <Link to="/">
-            <img
-               src={user.profilePicture ? PF + user.profilePicture : dp}
-               alt="profileImage"
-               className="post__dp roundimage"
-            />
+               <img
+                  src={user.profilePicture ? PF + user.profilePicture : dp}
+                  alt="profileImage"
+                  className="post__dp roundimage"
+               />
             </Link>
             <div>
-               <h3>{user.firstname && user.lastname ? user.firstname + " " + user.lastname : ""}</h3>
+               <h3>
+                  {user.firstname && user.lastname
+                     ? user.firstname + " " + user.lastname
+                     : ""}
+               </h3>
                <p>
                   {format(new Date(post?.createdAt), "dd/MM/yyyy", {
                      addSuffix: true,
                   })}
                </p>
             </div>
+            {/* {auth.user.admin || auth.user._id === post.userId ? ( */}
             <Options options={options} />
+            {/* ) : null} */}
+            <PostUpdateModal
+               updateModal={updateModal}
+               setUpdateModal={setUpdateModal}
+               data={post}
+            />
          </header>
          <div className="post__details">
             {post.desc}

@@ -24,10 +24,9 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
    const postId = req.params.id;
    const { userId, admin } = req.body;
-
    try {
       const post = await Post.findById(postId);
-      if (post.userId === userId || admin) {
+      if (admin || post.userId === userId) {
          await post.updateOne({ $set: req.body });
          res.status(200).json(post);
       } else {
@@ -46,7 +45,7 @@ export const deletePost = async (req, res) => {
    try {
       const post = await Post.findById(postId);
       // console.log(post)
-      if (post.userId === userId || admin) {
+      if (admin || post.userId === userId) {
          if (post.image) {
             const filename = post.image.split("public/images/")[0];
             // console.log(filename)

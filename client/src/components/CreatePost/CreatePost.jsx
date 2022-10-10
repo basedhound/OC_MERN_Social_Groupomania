@@ -50,33 +50,18 @@ const CreatePost = (/* { post, id, close } */) => {
          } catch (err) {}
       }
       try {
-         await axios.post("/api/posts", newPost, {
+         const res = await axios.post("/api/posts", newPost, {
             headers: {
                Authorization: `Bearer ${currentUser.token}`,
             },
          });
-         window.location.reload();
+         // console.log(res.data);
+         setDesc("");
+         setFile(null);
+         dispatch({ type: "CREATE_POST", payload: res.data });
+         // window.location.reload();
       } catch (err) {}
    };
-   // // console.log(newPost.entries()[0])
-   // const response = await fetch("/api/posts", {
-   //    method: "POST",
-   //    // body: JSON.stringify(newPost),
-   //    body: newPost,
-   //    headers: {
-   //       // "Content-Type": "application/json",
-   //       // "Content-Type": "multipart/form-data",
-   //       'Authorization': `Bearer ${user.token}`
-   //    },
-   // });
-   // const json = await response.json();
-
-   //    if(response.ok) {
-   //       setDesc('')
-   //       setImage(null)
-   //       dispatch({type: 'CREATE_POST', payload:json})
-   //    }
-   // };
 
    return (
       <article className="createpost gradient-border">
