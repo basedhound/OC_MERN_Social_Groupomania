@@ -87,6 +87,7 @@
 .hamburger {
    display: none;
    width: 22px;
+   cursor: pointer;
 }
 
 .hamburger > img {

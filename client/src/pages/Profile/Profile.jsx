@@ -3,7 +3,7 @@ import React from "react";
 // Redux
 // Components
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
-import CreatePost from "../../components/CreatePost/CreatePost";
+import PostShare from "../../components/PostShare/PostShare";
 import Posts from "../../components/Post/Posts";
 import Online from "../../components/Online/Online";
 // Style
@@ -19,7 +19,7 @@ const Profile = () => {
             <ProfileCard id="" isOwnProfile="" />
          </article>
          <article className="profile__center">
-            {<CreatePost />}
+            {<PostShare />}
             <Posts/>
          </article>
          <article className="profile__right">

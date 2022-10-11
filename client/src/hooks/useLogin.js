@@ -8,6 +8,7 @@ export const useLogin = () => {
 
    const login = async (email, password) => {
       setIsLoading(true);
+      // window.location.reload() //? Corrige problème likes
       setError(null);
 
       const response = await fetch('/api/auth/login', {

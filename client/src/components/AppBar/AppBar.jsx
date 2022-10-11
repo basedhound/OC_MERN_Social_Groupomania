@@ -42,8 +42,8 @@ const AppBar = () => {
                onClick={() => dispatch(toggleSidebar(!isSidebarVisible))}>
                <img
                   src={isSidebarVisible ? closeIcon : hamburger}
-                  alt="hamburger"
-                  title="Membres"
+                  alt="Utilisateurs"
+                  title="Utilisateurs"
                />
             </div>
             <Link to="/">

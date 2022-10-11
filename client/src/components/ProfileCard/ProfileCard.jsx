@@ -1,42 +1,32 @@
-import { useLogout } from "../../hooks/useLogout";
-import { useAuthContext } from "../../hooks/useAuthContext";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { format } from "date-fns";
+// Hooks
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { useLogout } from "../../hooks/useLogout";
+// Modal
+import ProfileDetailsModal from "../ProfileDetailsModal/ProfileDetailsModal";
+import ProfilePictureModal from "./../ProfilePictureModal/ProfilePictureModal";
 // Style
 import {
    dp,
    clockIcon,
-   /* cakeIcon, */
-   /* locationIcon, */
    mailIcon,
    cameraIcon,
+   /* cakeIcon, */
+   /* locationIcon, */
 } from "../../assets";
 import "./profilecard.css";
-import { useRef, useState, useEffect } from "react";
-import ProfileDetailsModal from "../ProfileDetailsModal/ProfileDetailsModal";
-import ProfilePictureModal from './../ProfilePictureModal/ProfilePictureModal';
-import axios from "axios";
 
 const ProfileCard = () => {
-   //? Context
+   //? Utilities
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-
    const { user: auth } = useAuthContext();
-   // const imageRef = useRef();
-
    //? Modals
    const [modalDetails, setModalDetails] = useState(false);
-   const [modalPicture, setModalPicture] = useState(false);
-   
+   const [userPictureModal, setUserPictureModal] = useState(false);
 
-   const [formData, setFormData] = useState();
-
-   //? Logout Button
-   const { logout } = useLogout();
-   const handleLogout = () => {
-      logout();
-   };
-
-   //? Fetch user
+   //? Dislpay current user
    const [user, setUser] = useState({});
    useEffect(() => {
       const fetchUser = async () => {
@@ -49,13 +39,21 @@ const ProfileCard = () => {
             },
          });
          const json = await response.json();
-         console.log(json);
          setUser(json);
-         // console.log(json)
       };
       fetchUser();
    }, [auth.user._id]);
 
+   //? Logout
+   const { logout } = useLogout();
+   const handleLogout = () => {
+      logout();
+   };
+
+   //? Date Fns
+   function dateIsValid(date) {
+      return !Number.isNaN(new Date(date).getTime());
+   }
 
    return (
       <section className="profilecard gradient-border">
@@ -74,18 +72,18 @@ const ProfileCard = () => {
                         className="pp-icon"
                         src={cameraIcon}
                         alt="Modifier photo de profil"
-                        onClick={() => setModalPicture(true)}
+                        onClick={() => setUserPictureModal(true)}
                      />
                   </label>
                   <ProfilePictureModal
-               modalPicture={modalPicture}
-               setModalPicture={setModalPicture}
-               data={auth.user}
-            />
+                     userPictureModal={userPictureModal}
+                     setUserPictureModal={setUserPictureModal}
+                     data={auth.user}
+                  />
                </div>
             </div>
             <h1>
-               {user.firstname && user.lastname
+               {user.firstname || user.lastname
                   ? user.firstname + " " + user.lastname
                   : ""}
             </h1>
@@ -97,11 +95,8 @@ const ProfileCard = () => {
                <h3>
                   Inscrit le{" "}
                   {format(
-                     new Date(auth.user.createdAt ? auth.user.createdAt : ""),
-                     "dd/MM/yyyy",
-                     {
-                        addSuffix: true,
-                     }
+                     new Date(auth.user?.createdAt),
+                     "dd/MM/yyyy"
                   )}
                </h3>
             </div>

@@ -1,28 +1,26 @@
-// React
-import React, { useEffect, useState } from "react";
-import Input from "../Input/Input";
-import Options from "../Options/Options";
-import { usePostsContext } from "../../hooks/usePostsContext";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+// Hooks
 import { useAuthContext } from "./../../hooks/useAuthContext";
-//Style
+import { usePostsContext } from "../../hooks/usePostsContext";
+// Components
+import Comment from "../Comment/Comment";
+import PostOptions from "../PostOptions/PostOptions";
+import PostUpdateModal from "../PostUpdateModal/PostUpdateModal";
+// Utilities
 import { format /* formatDistanceToNow */ } from "date-fns";
+//Style
 import { dp, likeIcon, likeOutlined } from "../../assets";
 import "./post.css";
-import { Link } from "react-router-dom";
-import PostUpdateModal from "../PostUpdateModal/PostUpdateModal";
 
 const Post = ({ post }) => {
+   //? Dependencies
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-   // Context
-   const { dispatch } = usePostsContext();
    const { user: auth } = useAuthContext();
+   const { dispatch } = usePostsContext();
+   const [updatePostModal, setUpdatePostModal] = useState(false);
 
-   // Errors
-   const [error, setError] = useState(null);
-
-   const [updateModal, setUpdateModal] = useState(false);
-
-   //? Fetch user
+   //? Get post's user details
    const [user, setUser] = useState({});
    useEffect(() => {
       const fetchUser = async () => {
@@ -41,27 +39,14 @@ const Post = ({ post }) => {
       fetchUser();
    }, [post.userId, auth.token]);
 
-   /*    //? Fetch user (axios)
-   const [user, setUser] = useState({});
-   useEffect(() => {
-      const fetchUser = async () => {
-         const res = await axios.get(`/api/users/${post.userId}`);
-         // console.log(res.data)
-         setUser(res.data);
-      };
-      fetchUser();
-   }, [post.userId]);
- */
-
    //? Likes
    const [like, setLike] = useState(post.likes.length);
    const [liked, setLiked] = useState(post.likes.includes(auth.user._id));
-   // fetch
+
    const handleLike = async () => {
       const likeReq = {
          userId: auth.user._id,
       };
-
       const likeRes = await fetch("/api/posts/" + post._id + "/like", {
          method: "PUT",
          body: JSON.stringify(likeReq),
@@ -70,46 +55,46 @@ const Post = ({ post }) => {
             Authorization: `Bearer ${auth.token}`,
          },
       });
-      // const json = await likeRes.json();
-
       setLike(liked ? like - 1 : like + 1);
       setLiked(!liked);
    };
-   //? Already liked ?
    useEffect(() => {
+      // Already liked ?
       setLiked(post.likes.includes(auth.user._id));
    }, [auth.user._id, post.likes]);
 
-   //? Options : DELETE
-   // Delete
+   //? Post Option : DELETE
    const handleDelete = async () => {
       const deleteReq = {
          userId: auth.user._id,
-         admin: false,
+         admin: auth.user.admin,
       };
       try {
          if (auth.user.admin || auth.user._id === post.userId) {
-         const deleteRes = await fetch("/api/posts/" + post._id, {
-            method: "DELETE",
-            body: JSON.stringify(deleteReq),
-            headers: {
-               "Content-Type": "application/json",
-               Authorization: `Bearer ${auth.token}`,
-            },
-         });
-         const json = await deleteRes.json();
-         dispatch({ type: "DELETE_POST", payload: json });
-      }} catch (err) {}
-   };
-
-   //? Options : UPDATE
-   // Delete
-   const handleUpdate = () => {
-      if (auth.user.admin || auth.user._id === post.userId) {
-         setUpdateModal(true);
+            const deleteRes = await fetch("/api/posts/" + post._id, {
+               method: "DELETE",
+               body: JSON.stringify(deleteReq),
+               headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${auth.token}`,
+               },
+            });
+            const json = await deleteRes.json();
+            dispatch({ type: "DELETE_POST", payload: json });
+         }
+      } catch (error) {
+         console.log({ message: error.message });
       }
    };
 
+   //? Post Option : UPDATE
+   const handleUpdate = () => {
+      if (auth.user.admin || auth.user._id === post.userId) {
+         setUpdatePostModal(true);
+      }
+   };
+
+   //? Post Options : Modal
    const options = {
       Supprimer: handleDelete,
       Modifier: handleUpdate,
@@ -129,22 +114,22 @@ const Post = ({ post }) => {
             </Link>
             <div>
                <h3>
-                  {user.firstname && user.lastname
+                  {user.firstname || user.lastname
                      ? user.firstname + " " + user.lastname
                      : ""}
                </h3>
                <p>
                   {format(new Date(post?.createdAt), "dd/MM/yyyy", {
-                     addSuffix: true,
+                     addSuffix: false,
                   })}
                </p>
             </div>
-            {/* {auth.user.admin || auth.user._id === post.userId ? ( */}
-            <Options options={options} />
-            {/* ) : null} */}
+            {auth.user.admin || auth.user._id === post.userId ? (
+               <PostOptions options={options} />
+            ) : null}
             <PostUpdateModal
-               updateModal={updateModal}
-               setUpdateModal={setUpdateModal}
+               updatePostModal={updatePostModal}
+               setUpdatePostModal={setUpdatePostModal}
                data={post}
             />
          </header>
@@ -165,10 +150,11 @@ const Post = ({ post }) => {
                   src={liked ? likeIcon : likeOutlined}
                   alt="like"
                   onClick={handleLike}
+                  title="Aimer ce message"
                />
                <p>{like}</p>
             </div>
-            <Input />
+            <Comment />
          </div>
       </article>
    );

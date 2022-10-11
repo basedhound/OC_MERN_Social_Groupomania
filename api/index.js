@@ -51,8 +51,8 @@ const upload = multer({ storage });
 app.post("/api/upload", upload.single("file"), (req, res) => {
    try {
       return res.status(200).json("File uploaded successfully");
-   } catch (err) {
-      console.log(err);
+   } catch (error) {
+      console.log({ message: error.message });
    }
 });
 
@@ -74,7 +74,7 @@ const start = async () => {
          console.log(`Server is listening on port ${PORT}`)
       );
    } catch (error) {
-      console.log(error);
+      console.log({ message: error.message });
    }
 };
 start();

@@ -1,24 +1,19 @@
+import { useRef, useState } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
-
+import axios from "axios";
+// Style
+import { Modal, useMantineTheme } from "@mantine/core";
 import "./profilepicturemodal.css";
 import { dp, fileIcon } from "../../assets";
-import { Modal, useMantineTheme } from "@mantine/core";
-import { useRef, useState } from "react";
-import axios from "axios";
 
-function ProfilePictureModal({ modalPicture, setModalPicture, data }) {
+function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
+   //? Utilities
    const theme = useMantineTheme();
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
-
-
-   const imageRef = useRef();
-
    const { user: auth } = useAuthContext();
-   const { password, ...other } = data;
-   // console.log(data)
-   const [formData, setFormData] = useState(other);
 
    // //? Update Pictures
+   const imageRef = useRef();
    const [profilePicture, setprofilePicture] = useState(null);
    const handleImages = (event) => {
       if (event.target.files && event.target.files[0]) {
@@ -28,18 +23,19 @@ function ProfilePictureModal({ modalPicture, setModalPicture, data }) {
    };
 
    //? Submit : Update Confirmation
+   const { password, ...userDetails } = data;
+   const [formData, setFormData] = useState(userDetails);
    const handleSubmit = async (e) => {
       e.preventDefault();
-      let UserData = formData;
       const data = new FormData();
       const fileName = Date.now() + profilePicture.name;
       data.append("name", fileName);
       data.append("file", profilePicture);
-      UserData.profilePicture = fileName;
+      formData.profilePicture = fileName;
       try {
          const res = await axios.put(
             "/api/users/" + `${auth.user._id}`,
-            UserData,
+            formData,
             {
                headers: {
                   Authorization: `Bearer ${auth.token}`,
@@ -48,25 +44,29 @@ function ProfilePictureModal({ modalPicture, setModalPicture, data }) {
          );
          console.log(res.data.user);
          // dispatch({ type: "UPDATE", payload: res.data.user });
-         setModalPicture(false);
+         setUserPictureModal(false);
          // window.location.reload();
-      } catch (err) {}
+      } catch (error) {
+         console.log({ message: error.message });
+      }
    };
 
    return (
       <Modal
          overlayColor={
             theme.colorScheme === "dark"
-               ? theme.colors.dark[6]
+               ? theme.colors.dark[7]
                : theme.colors.gray[2]
          }
          overlayOpacity={0.55}
          overlayBlur={3}
-         opened={modalPicture}
-         onClose={() => setModalPicture(false)}>
+         opened={userPictureModal}
+         onClose={() => setUserPictureModal(false)}>
          <form action="" className="modal-details">
             <img
-               src={auth.user.profilePicture ? PF + auth.user.profilePicture : dp}
+               src={
+                  auth.user.profilePicture ? PF + auth.user.profilePicture : dp
+               }
                alt="profile_image"
                className="modal-picture roundimage"
             />

@@ -14,9 +14,9 @@ const Online = () => {
             const allUsers = await axios.get("api/users");
             setUsers(allUsers.data);
             // console.log(allUsers.data);
-         } catch (err) {
-            console.log(err);
-         }
+         } catch (error) {
+            console.log({ message: error.message });
+      };
       };
       getUsers();
    }, []);

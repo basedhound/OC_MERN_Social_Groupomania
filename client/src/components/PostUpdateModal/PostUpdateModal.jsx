@@ -10,7 +10,7 @@ import axios from "axios";
 
 import { sendIcon, fileIcon, closeIcon } from "../../assets";
 
-function PostUpdateModal({ updateModal, setUpdateModal, data }) {
+function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
    //? Post
    const imageRef = useRef();
    const [file, setFile] = useState(null);
@@ -42,10 +42,12 @@ function PostUpdateModal({ updateModal, setUpdateModal, data }) {
             );
             console.log(res);
             // dispatch({ type: "UPDATE", payload: res.data.user });
-            setUpdateModal(false);
+            setUpdatePostModal(false);
             window.location.reload();
          }
-      } catch (err) {}
+      } catch (error) {
+         console.log({ message: error.message });
+   };
    };
 
    //? Preview image
@@ -60,15 +62,14 @@ function PostUpdateModal({ updateModal, setUpdateModal, data }) {
       <Modal
          overlayColor={
             theme.colorScheme === "dark"
-               ? theme.colors.dark[6]
+               ? theme.colors.dark[7]
                : theme.colors.gray[2]
          }
          overlayOpacity={0.55}
          overlayBlur={3}
          background-color="white"
-         opened={updateModal}
-         onClose={() => setUpdateModal(false)}>
-         {/*//? Composant CreatePost adapté */}
+         opened={updatePostModal}
+         onClose={() => setUpdatePostModal(false)}>
          <article className="createpost gradient-border">
             <form onSubmit={handleSubmit}>
                <textarea

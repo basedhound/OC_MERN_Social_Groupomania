@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { usePostsContext } from "../../hooks/usePostsContext";
-import { useAuthContext } from "./../../hooks/useAuthContext";
+import { useAuthContext } from "../../hooks/useAuthContext";
 //Style
 import { sendIcon, fileIcon } from "../../assets";
 import { closeIcon } from "../../assets/index";
-import "./createpost.css";
+import "./postshare.css";
 
 const CreatePost = (/* { post, id, close } */) => {
    //? Context
@@ -27,27 +27,32 @@ const CreatePost = (/* { post, id, close } */) => {
    //? Submit post
    const handleSubmit = async (e) => {
       e.preventDefault();
-      // const newPost = new FormData()
-      // newPost.append("userId", user.user._id)
-      // newPost.append("desc", desc)
+
+      if (desc === "" && file === null) {
+         return;
+      }
+
       const newPost = {
          userId: currentUser.user._id,
          desc: desc,
       };
+
       if (file) {
          const data = new FormData();
          const fileName = Date.now() + file.name;
          data.append("name", fileName);
          data.append("file", file);
          newPost.image = fileName;
-         // console.log(newPost);
+
          try {
             await axios.post("/api/upload", data, {
                headers: {
                   Authorization: `Bearer ${currentUser.token}`,
                },
             });
-         } catch (err) {}
+         } catch (error) {
+            console.log({ message: error.message });
+      };
       }
       try {
          const res = await axios.post("/api/posts", newPost, {
@@ -60,7 +65,9 @@ const CreatePost = (/* { post, id, close } */) => {
          setFile(null);
          dispatch({ type: "CREATE_POST", payload: res.data });
          // window.location.reload();
-      } catch (err) {}
+      } catch (error) {
+         console.log({ message: error.message });
+   };
    };
 
    return (

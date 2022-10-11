@@ -2,9 +2,9 @@ import React, {useState} from "react";
 import { useEffect } from "react";
 // Style
 import { optionsIcon } from "../../assets";
-import "./options.css";
+import "./postoptions.css";
 
-const Options = ({options}) => {
+const PostOptions = ({options}) => {
 
 	const [isOptionsVisible, setIsOptionsVisible] = useState(false);
 
@@ -38,4 +38,4 @@ const Options = ({options}) => {
 	);
 };
 
-export default Options;
+export default PostOptions;

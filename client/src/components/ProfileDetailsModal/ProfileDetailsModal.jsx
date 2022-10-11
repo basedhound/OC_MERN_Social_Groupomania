@@ -39,14 +39,16 @@ function ProfileDetailsModal({ modalDetails, setModalDetails, data }) {
          // dispatch({ type: "UPDATE", payload: res.data.user });
          setModalDetails(false);
          window.location.reload();
-      } catch (err) {}
+      } catch (error) {
+         console.log({ message: error.message });
+   };
    };
 
    return (
       <Modal
          overlayColor={
             theme.colorScheme === "dark"
-               ? theme.colors.dark[6]
+               ? theme.colors.dark[7]
                : theme.colors.gray[2]
          }
          overlayOpacity={0.55}
