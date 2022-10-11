@@ -82,39 +82,39 @@ Groupomania a imaginé plusieurs fonctionnalités pour favoriser les échanges e
 
 ## Spécifications fonctionnelles
 
-> ### Page de connexion
+### Page de connexion
 - Une page de connexion permettant à l’utilisateur de se connecter, ou bien de créer un compte s’il n’en possède pas.
 - La connexion doit se faire à partir de deux éléments : le mail et un mot de passe. 
 - Rien de plus à prévoir pour le moment.
 
 <br>
 
-> ### Détails de la fonctionnalité de connexion
+### Détails de la fonctionnalité de connexion
 - Un utilisateur doit avoir la possibilité de se déconnecter.
 - La session de l’utilisateur persiste pendant qu’il est connecté.
 -  Les données de connexion doivent être sécurisées.
 
 <br>
 
-> ### Page d’accueil
+### Page d’accueil
 - La page d’accueil doit lister les posts créés par les différents utilisateurs.
 - On voudra que les posts soient listés de façon antéchronologique (du plus récent au plus ancien).
 
 <br>
 
-> ### Création d’un post
+### Création d’un post
 - Un utilisateur doit pouvoir créer un post.
 - Un post doit pouvoir contenir du texte et une image.
 - Un utilisateur doit aussi pouvoir modifier et supprimer ses posts.
 
 <br>
 
-> ### Système de like
+### Système de like
 - Un utilisateur doit pouvoir liker un post, une seule fois pour chaque post.
 
 <br>
 
->  ### Rôle administrateur
+### Rôle administrateur
 - Dans le but de pouvoir faire de la modération si nécessaire, il faudra créer un utilisateur “administrateur” ; 
 - Celui-ci aura les droits de modification /
 suppression sur tous les posts du réseau social. 
