@@ -1,4 +1,6 @@
 import express from "express";
+import validPassword from "../middleware/password_middleware.js";
+import validEmail from "../middleware/email_middleware.js";
 import { login, register } from "../controllers/auth_controller.js";
 
 const router = express.Router();
