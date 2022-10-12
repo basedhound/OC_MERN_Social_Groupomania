@@ -9,7 +9,7 @@ export const createPost = async (req, res) => {
 
    const newPost = new Post({
       ...reqPost,
-      imageUrl: `${req.protocol}://${req.get("host")}/images/post/${req.file}`,
+      // imageUrl: `${req.protocol}://${req.get("host")}/images/${req.file}`,
    });
    // console.log("body", req.body)
    try {
@@ -20,15 +20,22 @@ export const createPost = async (req, res) => {
    }
 };
 
-//? Update
+// //? Update
 export const updatePost = async (req, res) => {
    const postId = req.params.id;
    const { userId, admin } = req.body;
+
    try {
       const post = await Post.findById(postId);
       if (admin || post.userId === userId) {
+
+         if (post.image) {
+            const filename = post.image.split("public/images/")[0];
+               fs.unlink(`public/images/${filename}`, () => {})
+         }
+
          await post.updateOne({ $set: req.body });
-         res.status(200).json(post);
+         res.status(200).json(req.body);
       } else {
          res.status(403).json("You can only update your own posts !");
       }
@@ -36,6 +43,32 @@ export const updatePost = async (req, res) => {
       res.status(500).json({ message: error.message });
    }
 };
+
+// //? Update
+// export const updatePost = async (req, res) => {
+//    const postId = req.params.id;
+//    const { userId, admin } = req.body;
+
+//    try {
+//       const post = await Post.findOneAndUpdate(
+//          { _id: postId },
+//          (error, post) => {            
+//             if (admin || post.userId === userId) {
+//                if (post.image) {
+//                   const filename = post.image.split("public/images/")[0];
+//                   fs.unlink(`public/images/${filename}`, () => {});
+//                }
+//             } else {
+//                res.status(403).json("You can only update your own posts !");
+//             }
+//          }, 
+//          returnNewDocument = true         
+//       );
+//       res.status(200).json(post)
+//    } catch (error) {
+//       res.status(500).json({ message: error.message });
+//    }
+// };
 
 //? Delete
 export const deletePost = async (req, res) => {

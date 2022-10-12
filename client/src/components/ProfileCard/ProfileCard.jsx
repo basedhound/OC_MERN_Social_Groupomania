@@ -42,7 +42,7 @@ const ProfileCard = () => {
          setUser(json);
       };
       fetchUser();
-   }, [auth.user._id]);
+   }, [auth.user._id, auth.token]);
 
    //? Logout
    const { logout } = useLogout();
@@ -50,17 +50,17 @@ const ProfileCard = () => {
       logout();
    };
 
-   //? Date Fns
-   function dateIsValid(date) {
-      return !Number.isNaN(new Date(date).getTime());
-   }
+   // //? Date Fns
+   // function dateIsValid(date) {
+   //    return !Number.isNaN(new Date(date).getTime());
+   // }
 
    return (
       <section className="profilecard gradient-border">
          <header>
             <div>
                <img
-                  src={auth.user.profilePicture ? PF + user.profilePicture : dp}
+                  src={user.profilePicture ? PF + user.profilePicture : dp}
                   alt="Photo de profil"
                   name="profilePicture"
                   className="profilecard__dp roundimage"

@@ -10,7 +10,7 @@ import "./postshare.css";
 const CreatePost = (/* { post, id, close } */) => {
    //? Context
    const { dispatch } = usePostsContext();
-   const { user: currentUser } = useAuthContext();
+   const { user: auth } = useAuthContext();
    //? Post
    const imageRef = useRef();
    const [desc, setDesc] = useState("");
@@ -18,6 +18,7 @@ const CreatePost = (/* { post, id, close } */) => {
 
    //? Preview image
    const onImageChange = (event) => {
+      console.log(event)
       if (event.target.files && event.target.files[0]) {
          let img = event.target.files[0];
          setFile(img);
@@ -33,7 +34,7 @@ const CreatePost = (/* { post, id, close } */) => {
       }
 
       const newPost = {
-         userId: currentUser.user._id,
+         userId: auth.user._id,
          desc: desc,
       };
 
@@ -43,11 +44,10 @@ const CreatePost = (/* { post, id, close } */) => {
          data.append("name", fileName);
          data.append("file", file);
          newPost.image = fileName;
-
          try {
             await axios.post("/api/upload", data, {
                headers: {
-                  Authorization: `Bearer ${currentUser.token}`,
+                  Authorization: `Bearer ${auth.token}`,
                },
             });
          } catch (error) {
@@ -57,7 +57,7 @@ const CreatePost = (/* { post, id, close } */) => {
       try {
          const res = await axios.post("/api/posts", newPost, {
             headers: {
-               Authorization: `Bearer ${currentUser.token}`,
+               Authorization: `Bearer ${auth.token}`,
             },
          });
          // console.log(res.data);
@@ -104,6 +104,7 @@ const CreatePost = (/* { post, id, close } */) => {
                   accept="image/png, image/jpeg, image/jpg, image/webp"
                   ref={imageRef}
                   onChange={onImageChange}
+                  // onClick={this.value= null}
                />
                <button type="submit" aria-label="submit">
                   <img src={sendIcon} alt="send" />

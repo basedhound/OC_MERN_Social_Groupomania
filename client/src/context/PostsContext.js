@@ -14,8 +14,21 @@ export const postsReducer = (state, action) => {
          };
       case "DELETE_POST":
          return {
-            posts: state.posts.filter((post) => post._id !== action.payload._id),
+            posts: state.posts.filter(
+               (post) => post._id !== action.payload._id
+            ),
          };
+      case "UPDATE_POST":
+         console.log(action.payload);
+         return {
+            posts: state.posts.map((post) => {
+               if (post._id !== action.payload._id) {
+                  return post;
+               }
+               return action.payload;
+            }),
+         };
+
       default:
          return state;
    }

@@ -7,32 +7,50 @@ import "./profilepicturemodal.css";
 import { dp, fileIcon } from "../../assets";
 
 function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
-   //? Utilities
    const theme = useMantineTheme();
+   //? Utilities
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
    const { user: auth } = useAuthContext();
+   const { dispatch } = useAuthContext();
 
-   // //? Update Pictures
+   //? Handle Image
    const imageRef = useRef();
-   const [profilePicture, setprofilePicture] = useState(null);
+   const [file, setFile] = useState(null);
    const handleImages = (event) => {
       if (event.target.files && event.target.files[0]) {
          let img = event.target.files[0];
-         setprofilePicture(img);
+         setFile(img);
       }
    };
+
+   // const handleDetails = (e) => {
+   //    setFormData({ ...updatePost, [e.target.name]: e.target.value });
+   // };
 
    //? Submit : Update Confirmation
    const { password, ...userDetails } = data;
    const [formData, setFormData] = useState(userDetails);
+
    const handleSubmit = async (e) => {
       e.preventDefault();
-      const data = new FormData();
-      const fileName = Date.now() + profilePicture.name;
-      data.append("name", fileName);
-      data.append("file", profilePicture);
-      formData.profilePicture = fileName;
       try {
+         if (file) {
+            const data = new FormData();
+            const fileName = Date.now() + file.name;
+            data.append("name", fileName);
+            data.append("file", file);
+            formData.profilePicture = fileName;
+            try {
+               await axios.post("/api/upload", data, {
+                  headers: {
+                     Authorization: `Bearer ${auth.token}`,
+                  },
+               });
+            } catch (error) {
+               console.log({ message: error.message });
+            }
+         }
+
          const res = await axios.put(
             "/api/users/" + `${auth.user._id}`,
             formData,
@@ -42,9 +60,11 @@ function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
                },
             }
          );
-         console.log(res.data.user);
-         // dispatch({ type: "UPDATE", payload: res.data.user });
+         // console.log(res);
+         console.log(res.data);
+         dispatch({ type: "UPDATE", payload: res.data });
          setUserPictureModal(false);
+         // setFile(null);
          // window.location.reload();
       } catch (error) {
          console.log({ message: error.message });
@@ -63,13 +83,17 @@ function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
          opened={userPictureModal}
          onClose={() => setUserPictureModal(false)}>
          <form action="" className="modal-details">
-            <img
-               src={
-                  auth.user.profilePicture ? PF + auth.user.profilePicture : dp
-               }
-               alt="profile_image"
-               className="modal-picture roundimage"
-            />
+            {file && (
+               <img
+                  src={
+                     URL.createObjectURL(file) !== ""
+                        ? URL.createObjectURL(file)
+                        : PF + auth.user.profilePicture
+                  }
+                  alt="profile_image"
+                  className="modal-picture roundimage"
+               />
+            )}
 
             <div>
                <label htmlFor={"image"} aria-label="select file">

@@ -1,6 +1,7 @@
 import "./postupdatemodal.css";
 
 import { useAuthContext } from "../../hooks/useAuthContext";
+import { usePostsContext } from "../../hooks/usePostsContext";
 
 import { Modal, useMantineTheme } from "@mantine/core";
 import { useDispatch } from "react-redux";
@@ -11,50 +12,70 @@ import axios from "axios";
 import { sendIcon, fileIcon, closeIcon } from "../../assets";
 
 function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
+   const theme = useMantineTheme();
    //? Post
    const imageRef = useRef();
    const [file, setFile] = useState(null);
+   const { dispatch } = usePostsContext();
 
-   const theme = useMantineTheme();
    const { user: auth } = useAuthContext();
-   const [updatedPost, setUpdatedPost] = useState(data);
+   const [updatePost, setUpdatePost] = useState(data);
 
    const handleDetails = (e) => {
-      setUpdatedPost({ ...updatedPost, [e.target.name]: e.target.value });
+      setUpdatePost({ ...updatePost, [e.target.name]: e.target.value });
+   };
+
+   //? Handle Image
+   const onImageChange = (event) => {
+      if (event.target.files && event.target.files[0]) {
+         let img = event.target.files[0];
+         setFile(img); //! tester plus bas
+      }
    };
 
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      try {
-         if (auth.user.admin || auth.user._id === data.userId) {
-            const updateReq = {
-               ...updatedPost,
-            };
+      if (auth.user.admin || auth.user._id === data.userId) {
+         try {
+            if (file) {
+               const data = new FormData();
+               const fileName = Date.now() + file.name;
+               data.append("name", fileName);
+               data.append("file", file);
+               updatePost.image = fileName;
+               // setUpdatePost({ ...updatePost, image:fileName });
+               try {
+                  await axios.post("/api/upload", data, {
+                     headers: {
+                        Authorization: `Bearer ${auth.token}`,
+                     },
+                  });
+               } catch (error) {
+                  console.log({ message: error.message });
+               }
+            } else {
+               updatePost.image = null;
+            }
+
             const res = await axios.put(
                "/api/posts/" + `${data._id}`,
-               updateReq,
+               updatePost,
                {
                   headers: {
                      Authorization: `Bearer ${auth.token}`,
                   },
                }
             );
-            console.log(res);
-            // dispatch({ type: "UPDATE", payload: res.data.user });
+            // console.log(res);
+            console.log(res.data);
+            dispatch({ type: "UPDATE_POST", payload: res.data });
             setUpdatePostModal(false);
-            window.location.reload();
+            setFile(null);
+            // window.location.reload();
+         } catch (error) {
+            console.log({ message: error.message });
          }
-      } catch (error) {
-         console.log({ message: error.message });
-   };
-   };
-
-   //? Preview image
-   const onImageChange = (event) => {
-      if (event.target.files && event.target.files[0]) {
-         let img = event.target.files[0];
-         setFile(img);
       }
    };
 
@@ -77,7 +98,7 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
                   placeholder="Ecrire un message..."
                   name="desc"
                   onChange={handleDetails}
-                  value={updatedPost.desc}
+                  value={updatePost.desc}
                />
                {file && (
                   <div className="uploaded-image">

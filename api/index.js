@@ -30,6 +30,7 @@ app.use(express.json());
 //? Serve images
 app.use(express.static("public"));
 app.use("/images", express.static("images"));
+
 // import {fileURLToPath} from 'url';
 // const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
@@ -37,6 +38,7 @@ app.use("/images", express.static("images"));
 //    "/public/images",
 //    express.static(path.join(__dirname, "/public/images"))
 // );
+
 const storage = multer.diskStorage({
    destination: (req, file, cb) => {
       cb(null, "public/images");
@@ -55,10 +57,17 @@ app.post("/api/upload", upload.single("file"), (req, res) => {
    }
 });
 
+
+
+
+
+
 //? Routes
 app.use("/api/auth", auth_router);
 app.use("/api/users", user_router);
 app.use("/api/posts", post_router);
+
+
 
 //? Server launch
 const connectDB = (uri) => {

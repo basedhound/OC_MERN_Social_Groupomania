@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect } from "react";
 import Auth from "../pages/Auth/Auth";
 
 export const AuthContext = createContext();
@@ -10,9 +10,7 @@ export const authReducer = (state, action) => {
       case "LOGOUT":
          return { user: "null" }, (<Auth />);
       case "UPDATE":
-         return {
-            user: action.payload,
-         };
+         return { user: action.payload };
       default:
          return state;
    }
