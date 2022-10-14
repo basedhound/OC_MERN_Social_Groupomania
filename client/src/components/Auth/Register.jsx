@@ -31,7 +31,7 @@ const Register = ({ setIsRegistering }) => {
                   placeholder="James"
                   value={firstname}
                   onChange={(e) => setFirstname(e.target.value)}
-                  pattern="^(?![\s.]+$)[A-zÀ-ú\s\-]{1,25}$"
+                  // pattern="^(?![\s.]+$)[A-zÀ-ú\s\-]{1,25}$"
                />
             </div>
             <div>
@@ -61,7 +61,7 @@ const Register = ({ setIsRegistering }) => {
          <input
             required
             type="password"
-            placeholder="Mix de 8 chiffres/lettres minimum"
+            placeholder="Mix de 8 chiffres & lettres minimum"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
@@ -71,7 +71,7 @@ const Register = ({ setIsRegistering }) => {
          <input
             required
             type="password"
-            placeholder="Mix de 8 chiffres/lettres minimum"
+            placeholder="Mix de 8 chiffres & lettres minimum"
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
             pattern={password}

@@ -8,10 +8,11 @@ import Comment from "../Comment/Comment";
 import PostOptions from "../PostOptions/PostOptions";
 import PostUpdateModal from "../PostUpdateModal/PostUpdateModal";
 // Utilities
-import { format /* formatDistanceToNow */ } from "date-fns";
+import { format /* formatDistanceToNow, */ } from "date-fns";
 //Style
 import { dp, likeIcon, likeOutlined } from "../../assets";
 import "./post.css";
+import axios from "axios";
 
 const Post = ({ post }) => {
    //? Dependencies
@@ -34,30 +35,26 @@ const Post = ({ post }) => {
          });
          const json = await response.json();
          setUser(json);
-         // console.log(json)
       };
       fetchUser();
    }, [post.userId, auth.token]);
 
    //? Likes
+   const [liked, setLiked] = useState(false);
    const [like, setLike] = useState(post.likes.length);
-   const [liked, setLiked] = useState(post.likes.includes(auth.user._id));
-
+   const data = auth.user._id;
    const handleLike = async () => {
-      const likeReq = {
-         userId: auth.user._id,
-      };
-      const likeRes = await fetch("/api/posts/" + post._id + "/like", {
-         method: "PUT",
-         body: JSON.stringify(likeReq),
+      await axios.put("/api/posts/" + post._id + "/like", data, {
          headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${auth.token}`,
          },
       });
-      setLike(liked ? like - 1 : like + 1);
       setLiked(!liked);
+      setLike(liked ? like - 1 : like + 1);
+      // const json = await likeRes.json();
+      // dispatch({ type: "UPDATE_POST", payload: json });
    };
+
    useEffect(() => {
       // Already liked ?
       setLiked(post.likes.includes(auth.user._id));
@@ -119,7 +116,8 @@ const Post = ({ post }) => {
                      : ""}
                </h3>
                <p>
-                  {format(new Date(post?.createdAt), "dd/MM/yyyy", {
+                  {format(new Date(post?.createdAt), "dd/MM/yyyy 'à' H:mm", {
+                     hour24: true,
                      addSuffix: false,
                   })}
                </p>

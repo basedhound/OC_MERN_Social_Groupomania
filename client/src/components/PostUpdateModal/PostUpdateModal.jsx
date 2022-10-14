@@ -13,26 +13,27 @@ import { sendIcon, fileIcon, closeIcon } from "../../assets";
 
 function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
    const theme = useMantineTheme();
-   //? Post
-   const imageRef = useRef();
-   const [file, setFile] = useState(null);
+   //? Dependencies
+   const { user: auth } = useAuthContext();
    const { dispatch } = usePostsContext();
 
-   const { user: auth } = useAuthContext();
+   //? Handle desc
    const [updatePost, setUpdatePost] = useState(data);
-
    const handleDetails = (e) => {
       setUpdatePost({ ...updatePost, [e.target.name]: e.target.value });
    };
 
-   //? Handle Image
+   //? Handle image
+   const imageRef = useRef();
+   const [file, setFile] = useState(null);
    const onImageChange = (event) => {
       if (event.target.files && event.target.files[0]) {
          let img = event.target.files[0];
-         setFile(img); //! tester plus bas
+         setFile(img);
       }
    };
 
+   //? Submit updated post
    const handleSubmit = async (e) => {
       e.preventDefault();
 

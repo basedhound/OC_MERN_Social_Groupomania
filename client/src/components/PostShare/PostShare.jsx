@@ -44,6 +44,7 @@ const CreatePost = (/* { post, id, close } */) => {
          data.append("name", fileName);
          data.append("file", file);
          newPost.image = fileName;
+         console.log("test", file)
          try {
             await axios.post("/api/upload", data, {
                headers: {

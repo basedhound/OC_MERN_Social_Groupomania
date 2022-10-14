@@ -1,5 +1,5 @@
 // React
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -16,11 +16,34 @@ import {
    logo,
 } from "../../assets";
 import "./appbar.css";
+import { useAuthContext } from "./../../hooks/useAuthContext";
+
 
 const AppBar = () => {
+   //? Dependencies
+   const PF = process.env.REACT_APP_PUBLIC_FOLDER;
+   const { user: auth } = useAuthContext();
    const dispatch = useDispatch();
 
-   //? Online panel on leftside
+   //? Get current user's details
+const [user, setUser] = useState({});
+useEffect(() => {
+   const fetchUser = async () => {
+      const response = await fetch(`/api/users/${auth.user._id}`, {
+         method: "GET",
+         body: JSON.stringify(),
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+         },
+      });
+      const json = await response.json();
+      setUser(json);
+   };
+   fetchUser();
+}, [auth.user._id, auth.token]);
+
+   //? Online panel
    const {
       // user: { id, profileImage },
       modal: { isSidebarVisible },
@@ -55,21 +78,21 @@ const AppBar = () => {
                />
             </Link>
             <form /* onSubmit={} */ className="searchform">
-               <button type="submit" aria-label="search">
+               <button disabled type="submit" aria-label="search">
                   <img src={searchIcon} alt="search" />
                </button>
-               <input
+               <input               
                   type="text"
                   placeholder="Rechercher..." /* value={} */ /* onChange={} */
                />
                <button /* onClick={}*/ type="button" aria-label="clear search">
-                  <img src={closeIcon} alt="close" className="close" />
+                  {/* <img src={closeIcon} alt="close" className="close" /> */}
                </button>
             </form>
             <nav className="appbar__profile">
                <Link to="/">
                   <img
-                     src={dp}
+                     src={user.profilePicture ? PF + user.profilePicture : dp}
                      alt="profileImage"
                      className="appbar__profile__dp"
                      title="Profil"

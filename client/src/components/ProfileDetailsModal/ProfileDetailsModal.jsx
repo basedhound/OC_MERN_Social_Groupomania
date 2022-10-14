@@ -9,20 +9,18 @@ import axios from "axios";
 
 function ProfileDetailsModal({ modalDetails, setModalDetails, data }) {
    const theme = useMantineTheme();
+   //? Dependencies
    const { user: auth } = useAuthContext();
    const { dispatch } = useAuthContext();
-   const { password, ...other } = data;
-   // console.log("data:", data);
-   const [userData, setUserData] = useState(other);
-   // console.log("other :", other);
-   // const [profilePicture, setProfilePicture] = useState(null)
-   // const dispatch = useDispatch()
-   // const params = useParams()
 
+//? Handle user's details
    const handleDetails = (e) => {
       setUserData({ ...userData, [e.target.name]: e.target.value });
    };
 
+   //? Submit : Update Confirmation
+   const { email, password, profilePicture, ...userDetails } = data;
+   const [userData, setUserData] = useState(userDetails);
    const handleSubmit = async (e) => {
       e.preventDefault();
       try {
@@ -35,10 +33,10 @@ function ProfileDetailsModal({ modalDetails, setModalDetails, data }) {
                },
             }
          );
-         console.log(res.data.user);
-         // dispatch({ type: "UPDATE", payload: res.data.user });
+         // console.log(res.data.user);
+         dispatch({ type: "UPDATE", payload: res.data });
          setModalDetails(false);
-         window.location.reload();
+         // window.location.reload();
       } catch (error) {
          console.log({ message: error.message });
    };
@@ -80,14 +78,6 @@ function ProfileDetailsModal({ modalDetails, setModalDetails, data }) {
                placeholder="Secteur"
                onChange={handleDetails}
                value={userData.about}
-            />
-            <input
-               type="text"
-               className="modal-details__input"
-               name="email"
-               placeholder="Email"
-               onChange={handleDetails}
-               value={userData.email}
             />
             <button onClick={handleSubmit}>Confirmer</button>
          </form>

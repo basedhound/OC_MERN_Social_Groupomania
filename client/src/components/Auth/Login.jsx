@@ -11,6 +11,7 @@ const Login = ({ setIsRegistering }) => {
       e.preventDefault();
 
       await login(email, password);
+      // window.location.reload()
 
       // console.log(email, password);
    };

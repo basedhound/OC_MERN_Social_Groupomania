@@ -11,8 +11,8 @@ import ProfilePictureModal from "./../ProfilePictureModal/ProfilePictureModal";
 import {
    dp,
    clockIcon,
-   mailIcon,
    cameraIcon,
+   /* mailIcon, */
    /* cakeIcon, */
    /* locationIcon, */
 } from "../../assets";
@@ -99,10 +99,6 @@ const ProfileCard = () => {
                      "dd/MM/yyyy"
                   )}
                </h3>
-            </div>
-            <div className="profilecard__info">
-               <img src={mailIcon} alt="mail" />
-               <h3>{user.email ? user.email : ""}</h3>
             </div>
          </article>
 

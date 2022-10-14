@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useAuthContext } from "../../hooks/useAuthContext";
 import axios from "axios";
 // Style
@@ -8,27 +8,43 @@ import { dp, fileIcon } from "../../assets";
 
 function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
    const theme = useMantineTheme();
-   //? Utilities
+   //? Dependencies
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
    const { user: auth } = useAuthContext();
    const { dispatch } = useAuthContext();
 
-   //? Handle Image
+//? Get current user's details
+const [user, setUser] = useState({});
+useEffect(() => {
+   const fetchUser = async () => {
+      const response = await fetch(`/api/users/${auth.user._id}`, {
+         method: "GET",
+         body: JSON.stringify(),
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${auth.token}`,
+         },
+      });
+      const json = await response.json();
+      setUser(json);
+   };
+   fetchUser();
+}, [auth.user._id, auth.token]);
+
+
+   //? Handle user's image
    const imageRef = useRef();
    const [file, setFile] = useState(null);
-   const handleImages = (event) => {
-      if (event.target.files && event.target.files[0]) {
-         let img = event.target.files[0];
+
+   const handleImages = (e) => {
+      if (e.target.files && e.target.files[0]) {
+         let img = e.target.files[0];
          setFile(img);
       }
    };
 
-   // const handleDetails = (e) => {
-   //    setFormData({ ...updatePost, [e.target.name]: e.target.value });
-   // };
-
    //? Submit : Update Confirmation
-   const { password, ...userDetails } = data;
+   const { password, email, firstname, lastname, about, ...userDetails } = data;
    const [formData, setFormData] = useState(userDetails);
 
    const handleSubmit = async (e) => {
@@ -50,7 +66,6 @@ function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
                console.log({ message: error.message });
             }
          }
-
          const res = await axios.put(
             "/api/users/" + `${auth.user._id}`,
             formData,
@@ -60,11 +75,10 @@ function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
                },
             }
          );
-         // console.log(res);
          console.log(res.data);
          dispatch({ type: "UPDATE", payload: res.data });
          setUserPictureModal(false);
-         // setFile(null);
+         setFile(null);
          // window.location.reload();
       } catch (error) {
          console.log({ message: error.message });
@@ -83,13 +97,15 @@ function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
          opened={userPictureModal}
          onClose={() => setUserPictureModal(false)}>
          <form action="" className="modal-details">
-            {file && (
+            {file === null ? (
                <img
-                  src={
-                     URL.createObjectURL(file) !== ""
-                        ? URL.createObjectURL(file)
-                        : PF + auth.user.profilePicture
-                  }
+                  src={user.profilePicture ? PF + user.profilePicture : {dp}}
+                  alt="profile_image"
+                  className="modal-picture roundimage"
+               />
+            ) : (
+               <img
+                  src={URL.createObjectURL(file)}
                   alt="profile_image"
                   className="modal-picture roundimage"
                />
@@ -108,7 +124,7 @@ function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
 
                <input
                   type="file"
-                  accept="image/png, image/jpeg, image/jpg, image/webp"
+                  accept="image/png, image/jpeg, image/webp"
                   name="profilePicture"
                   ref={imageRef}
                   onChange={handleImages}

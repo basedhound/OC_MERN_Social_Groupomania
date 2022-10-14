@@ -19,7 +19,6 @@ export const postsReducer = (state, action) => {
             ),
          };
       case "UPDATE_POST":
-         console.log(action.payload);
          return {
             posts: state.posts.map((post) => {
                if (post._id !== action.payload._id) {

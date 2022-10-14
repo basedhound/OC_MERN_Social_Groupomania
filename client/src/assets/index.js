@@ -17,6 +17,5 @@ export { default as optionsIcon } from './options.svg';
 export { default as logoutIcon } from './logout.svg';
 export { default as homeIcon } from './home.svg';
 export { default as logo } from './logo.svg';
-export { default as post } from './post.jpg';
 
 export { default as dp } from './dp.jpg';
