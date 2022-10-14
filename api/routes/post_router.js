@@ -8,13 +8,7 @@ import {
    getPosts,
    getUserPosts,
 } from "../controllers/post_controller.js";
-
-import requireAuth from "../middleware/auth_middleware.js";
-
-
-// import {upload} from "../middleware/multer_middleware.js"
-
-
+import auth from "../middleware/auth_mw.js";
 
 const router = express.Router();
 
@@ -23,10 +17,9 @@ const router = express.Router();
 //    res.send(" Post Router TEST")
 // })
 
-// Require auth for all routes
-router.use(requireAuth);
-
-router.post("/", /* upload,  */createPost);
+//? Routes
+router.use(auth);
+router.post("/", createPost);
 router.put("/:id", updatePost);
 router.delete("/:id", deletePost);
 router.put("/:id/like", likePost);

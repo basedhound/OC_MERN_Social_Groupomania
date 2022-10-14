@@ -20,7 +20,7 @@ export const createPost = async (req, res) => {
    }
 };
 
-// //? Update
+// //? Update post
 export const updatePost = async (req, res) => {
    const postId = req.params.id;
    const { userId, admin } = req.body;
@@ -28,10 +28,9 @@ export const updatePost = async (req, res) => {
    try {
       const post = await Post.findById(postId);
       if (admin || post.userId === userId) {
-
-         if (post.image) {
+         if (req.body.image && post.image) {
             const filename = post.image.split("public/images/")[0];
-               fs.unlink(`public/images/${filename}`, () => {})
+            fs.unlink(`public/images/${filename}`, () => {});
          }
 
          await post.updateOne({ $set: req.body });
@@ -44,44 +43,15 @@ export const updatePost = async (req, res) => {
    }
 };
 
-// //? Update
-// export const updatePost = async (req, res) => {
-//    const postId = req.params.id;
-//    const { userId, admin } = req.body;
-
-//    try {
-//       const post = await Post.findOneAndUpdate(
-//          { _id: postId },
-//          (error, post) => {            
-//             if (admin || post.userId === userId) {
-//                if (post.image) {
-//                   const filename = post.image.split("public/images/")[0];
-//                   fs.unlink(`public/images/${filename}`, () => {});
-//                }
-//             } else {
-//                res.status(403).json("You can only update your own posts !");
-//             }
-//          }, 
-//          returnNewDocument = true         
-//       );
-//       res.status(200).json(post)
-//    } catch (error) {
-//       res.status(500).json({ message: error.message });
-//    }
-// };
-
 //? Delete
 export const deletePost = async (req, res) => {
    const postId = req.params.id;
    const { userId, admin } = req.body;
-   // console.log("delete", req.body)
    try {
       const post = await Post.findById(postId);
-      // console.log(post)
       if (admin || post.userId === userId) {
          if (post.image) {
             const filename = post.image.split("public/images/")[0];
-            // console.log(filename)
             fs.unlink(`public/images/${filename}`, () => {
                post.deleteOne();
                res.status(200).json(post);
@@ -132,7 +102,6 @@ export const getPost = async (req, res) => {
 export const getPosts = async (req, res) => {
    try {
       const posts = await Post.find();
-      // console.log(posts)
       res.status(200).json(
          posts
             .filter((post) => post != null)

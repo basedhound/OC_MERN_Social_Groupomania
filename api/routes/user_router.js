@@ -6,17 +6,20 @@ import {
    deleteUser,
 } from "../controllers/user_controller.js";
 
-import authtoken from "../middleware/auth_middleware.js";
+import auth from "../middleware/auth_mw.js";
 
 const router = express.Router();
+
+//? Test
 // router.get('/', async (req, res) => {
 //    res.send("User Router : Success ")
 // })
 
-// router.use(requireAuth);
+//? Routes
+router.use(auth);
 router.get("/", getUsers);
 router.get("/:id", getUser);
-router.put("/:id", /* authtoken, */ updateUser);
-router.delete("/:id", /* authtoken, */ deleteUser);
+router.put("/:id", updateUser);
+router.delete("/:id", deleteUser);
 
 export default router;
