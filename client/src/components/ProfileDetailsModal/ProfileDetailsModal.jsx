@@ -1,11 +1,9 @@
-import "./profiledetailsmodal.css";
-import { useAuthContext } from "../../hooks/useAuthContext";
-
-import { Modal, useMantineTheme } from "@mantine/core";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import { useState } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext";
+// Style
+import { Modal, useMantineTheme } from "@mantine/core";
 import axios from "axios";
+import "./profiledetailsmodal.css";
 
 function ProfileDetailsModal({ modalDetails, setModalDetails, data }) {
    const theme = useMantineTheme();
@@ -13,12 +11,12 @@ function ProfileDetailsModal({ modalDetails, setModalDetails, data }) {
    const { user: auth } = useAuthContext();
    const { dispatch } = useAuthContext();
 
-//? Handle user's details
+//? Handle user'details
    const handleDetails = (e) => {
       setUserData({ ...userData, [e.target.name]: e.target.value });
    };
 
-   //? Submit : Update Confirmation
+   //? Submit : Update Post
    const { email, password, profilePicture, ...userDetails } = data;
    const [userData, setUserData] = useState(userDetails);
    const handleSubmit = async (e) => {

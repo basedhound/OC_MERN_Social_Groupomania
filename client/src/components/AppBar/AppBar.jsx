@@ -1,11 +1,10 @@
-// React
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// Redux
-import { useDispatch, useSelector } from "react-redux";
-// Features
-import { toggleSidebar } from "../../features/modalSlice";
+import axios from "axios";
+import { useAuthContext } from "./../../hooks/useAuthContext";
 // Style
+import Online from "../Online/Online";
+
 import {
    dp,
    closeIcon,
@@ -16,58 +15,48 @@ import {
    logo,
 } from "../../assets";
 import "./appbar.css";
-import { useAuthContext } from "./../../hooks/useAuthContext";
-
 
 const AppBar = () => {
    //? Dependencies
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
    const { user: auth } = useAuthContext();
-   const dispatch = useDispatch();
 
-   //? Get current user's details
-const [user, setUser] = useState({});
-useEffect(() => {
-   const fetchUser = async () => {
-      const response = await fetch(`/api/users/${auth.user._id}`, {
-         method: "GET",
-         body: JSON.stringify(),
-         headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`,
-         },
-      });
-      const json = await response.json();
-      setUser(json);
-   };
-   fetchUser();
-}, [auth.user._id, auth.token]);
-
-   //? Online panel
-   const {
-      // user: { id, profileImage },
-      modal: { isSidebarVisible },
-   } = useSelector((state) => state);
-
-   //? Top of the page
+   //? Get current user details
+   const [user, setUser] = useState({});
    useEffect(() => {
-      // 👇️ scroll to top on page load
+      const getUser = async () => {
+         const res = await axios.get(`/api/users/${auth.user._id}`, {
+            headers: {
+               Authorization: `Bearer ${auth.token}`,
+            },
+         });
+         setUser(res.data);
+      };
+      getUser();
+   }, [auth.user._id, auth.token]);
+
+   //? Back to top of the page
+   useEffect(() => {
       window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
    }, []);
 
+   //? Sidebar
+   const [sidebar, setSidebar] = useState(null);
+   const showSidebar = () => [setSidebar(!sidebar)];
+
    return (
       <div className="appbar--container">
-         
          <img src={logo} alt="logo" />
          <header className="appbar topZ">
-            <div
-               className="hamburger"
-               onClick={() => dispatch(toggleSidebar(!isSidebarVisible))}>
+            <div className="hamburger" onClick={showSidebar}>
                <img
-                  src={isSidebarVisible ? closeIcon : hamburger}
+                  src={sidebar ? closeIcon : hamburger}
                   alt="Utilisateurs"
                   title="Utilisateurs"
                />
+            </div>
+            <div className={sidebar ? "sidebar visible" : "sidebar"}>
+               <Online />
             </div>
             <Link to="/">
                <img
@@ -81,7 +70,7 @@ useEffect(() => {
                <button disabled type="submit" aria-label="search">
                   <img src={searchIcon} alt="search" />
                </button>
-               <input               
+               <input
                   type="text"
                   placeholder="Rechercher..." /* value={} */ /* onChange={} */
                />

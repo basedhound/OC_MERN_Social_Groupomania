@@ -1,13 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import axios from "axios";
 import { usePostsContext } from "../../hooks/usePostsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 //Style
-import { sendIcon, fileIcon } from "../../assets";
-import { closeIcon } from "../../assets/index";
+import { sendIcon, fileIcon, closeIcon } from "../../assets";
 import "./postshare.css";
 
-const CreatePost = (/* { post, id, close } */) => {
+const CreatePost = () => {
    //? Context
    const { dispatch } = usePostsContext();
    const { user: auth } = useAuthContext();
@@ -18,7 +17,7 @@ const CreatePost = (/* { post, id, close } */) => {
 
    //? Preview image
    const onImageChange = (event) => {
-      console.log(event)
+      console.log(event);
       if (event.target.files && event.target.files[0]) {
          let img = event.target.files[0];
          setFile(img);
@@ -44,7 +43,7 @@ const CreatePost = (/* { post, id, close } */) => {
          data.append("name", fileName);
          data.append("file", file);
          newPost.image = fileName;
-         console.log("test", file)
+         console.log("test", file);
          try {
             await axios.post("/api/upload", data, {
                headers: {
@@ -53,7 +52,7 @@ const CreatePost = (/* { post, id, close } */) => {
             });
          } catch (error) {
             console.log({ message: error.message });
-      };
+         }
       }
       try {
          const res = await axios.post("/api/posts", newPost, {
@@ -61,14 +60,12 @@ const CreatePost = (/* { post, id, close } */) => {
                Authorization: `Bearer ${auth.token}`,
             },
          });
-         // console.log(res.data);
          setDesc("");
          setFile(null);
          dispatch({ type: "CREATE_POST", payload: res.data });
-         // window.location.reload();
       } catch (error) {
          console.log({ message: error.message });
-   };
+      }
    };
 
    return (

@@ -1,5 +1,10 @@
 Illustration openclassrooms
 
+# À l'attention de l'examinateur
+
+
+
+
 # Groupomania (Social application)
 
 Septième et dernier projet du parcours "Développeur web" chez OpenClassrooms. L'objectif est de construire un réseau social.

@@ -1,6 +1,3 @@
-// React
-import React from "react";
-// Redux
 // Components
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
 import PostShare from "../../components/PostShare/PostShare";
@@ -10,9 +7,6 @@ import Online from "../../components/Online/Online";
 import "./home.css";
 
 const Home = () => {
-   // const : posts / user = state
-   // const : fetch / dispatch
-
    return (
       <section className="home">
          <div className="home__left">

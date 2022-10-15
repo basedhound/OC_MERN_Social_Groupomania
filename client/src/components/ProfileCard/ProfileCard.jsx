@@ -26,20 +26,16 @@ const ProfileCard = () => {
    const [modalDetails, setModalDetails] = useState(false);
    const [userPictureModal, setUserPictureModal] = useState(false);
 
-   //? Dislpay current user
+   //? Get current user
    const [user, setUser] = useState({});
    useEffect(() => {
       const fetchUser = async () => {
-         const response = await fetch(`/api/users/${auth.user._id}`, {
-            method: "GET",
-            body: JSON.stringify(),
+         const res = await axios.get(`/api/users/${auth.user._id}`, {
             headers: {
-               "Content-Type": "application/json",
                Authorization: `Bearer ${auth.token}`,
             },
          });
-         const json = await response.json();
-         setUser(json);
+         setUser(res.data);
       };
       fetchUser();
    }, [auth.user._id, auth.token]);
@@ -49,11 +45,6 @@ const ProfileCard = () => {
    const handleLogout = () => {
       logout();
    };
-
-   // //? Date Fns
-   // function dateIsValid(date) {
-   //    return !Number.isNaN(new Date(date).getTime());
-   // }
 
    return (
       <section className="profilecard gradient-border">
@@ -94,10 +85,7 @@ const ProfileCard = () => {
                <img src={clockIcon} alt="join date" />
                <h3>
                   Inscrit le{" "}
-                  {format(
-                     new Date(auth.user?.createdAt),
-                     "dd/MM/yyyy"
-                  )}
+                  {format(new Date(auth.user?.createdAt), "dd/MM/yyyy")}
                </h3>
             </div>
          </article>

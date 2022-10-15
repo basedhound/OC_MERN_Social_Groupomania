@@ -1,15 +1,12 @@
-import "./postupdatemodal.css";
-
-import { useAuthContext } from "../../hooks/useAuthContext";
-import { usePostsContext } from "../../hooks/usePostsContext";
-
-import { Modal, useMantineTheme } from "@mantine/core";
-import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import { useState, useRef } from "react";
 import axios from "axios";
-
+// Context
+import { useAuthContext } from "../../hooks/useAuthContext";
+import { usePostsContext } from "../../hooks/usePostsContext";
+// Style
+import { Modal, useMantineTheme } from "@mantine/core";
 import { sendIcon, fileIcon, closeIcon } from "../../assets";
+import "./postupdatemodal.css";
 
 function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
    const theme = useMantineTheme();
@@ -36,7 +33,7 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
    //? Submit updated post
    const handleSubmit = async (e) => {
       e.preventDefault();
-
+      updatePost.admin = auth.user.admin;
       if (auth.user.admin || auth.user._id === data.userId) {
          try {
             if (file) {
@@ -45,7 +42,6 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
                data.append("name", fileName);
                data.append("file", file);
                updatePost.image = fileName;
-               // setUpdatePost({ ...updatePost, image:fileName });
                try {
                   await axios.post("/api/upload", data, {
                      headers: {
@@ -68,12 +64,10 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
                   },
                }
             );
-            // console.log(res);
             console.log(res.data);
             dispatch({ type: "UPDATE_POST", payload: res.data });
             setUpdatePostModal(false);
             setFile(null);
-            // window.location.reload();
          } catch (error) {
             console.log({ message: error.message });
          }

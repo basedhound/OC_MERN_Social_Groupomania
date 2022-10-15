@@ -1,9 +1,8 @@
 import User from "../models/user_model.js";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import fs, { unlink } from "fs";
 
-//? Get all users
+//? Get every user
 export const getUsers = async (req, res) => {
    try {
       let users = await User.find();
@@ -36,20 +35,10 @@ export const getUser = async (req, res) => {
 //? Update user
 export const updateUser = async (req, res) => {
    const id = req.params.id;
-   const { _id, password, isAdmin } = req.body;
-   console.log(req.body);
+   const { _id, admin } = req.body;
 
-   if (id === _id || isAdmin) {
+   if (id === _id || admin) {
       try {
-         if (password) {
-            const salt = await bcrypt.genSalt(10);
-            req.body.password = await bcrypt.hash(password, salt);
-         }
-
-         // const user = await User.findByIdAndUpdate(id, req.body, {
-         //    new: true,
-         // });
-
          const user = await User.findById(id);
 
          if (req.body.profilePicture) {
@@ -75,27 +64,7 @@ export const updateUser = async (req, res) => {
    }
 };
 
-//? Delete
-// export const deleteUser = async (req, res) => {
-//    const id = req.params.id;
-//    const { _id, admin } = req.body;
-//    // console.log(req.body);
-
-//    if (id === _id || admin) {
-//       try {
-//          await User.findByIdAndDelete(id);
-//          res.status(200).json("User deleted successfully");
-//       } catch (error) {
-//          res.status(500).json(error);
-//       }
-//    } else {
-//       res.status(403).json(
-//          "Access Denied : You can only delete your own profile !"
-//       );
-//    }
-// };
-
-//? Delete
+//? Delete user
 export const deleteUser = async (req, res) => {
    const id = req.params.id;
    const { _id, admin } = req.body;

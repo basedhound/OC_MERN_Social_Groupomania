@@ -1,8 +1,8 @@
 // Style
 import { sendIcon } from "../../assets";
-import "./comment.css";
+import "./comments.css";
 
-const Comment = () => {
+const Comments = () => {
 
 
    return (
@@ -21,4 +21,4 @@ const Comment = () => {
    );
 };
 
-export default Comment;
+export default Comments;

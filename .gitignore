@@ -32,4 +32,4 @@ yarn-error.log*
 *.env
 
 # Various
-images/
+# images/

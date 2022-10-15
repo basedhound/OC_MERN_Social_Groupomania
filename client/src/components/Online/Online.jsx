@@ -7,19 +7,21 @@ import axios from "axios";
 import { useAuthContext } from "../../hooks/useAuthContext";
 
 const Online = () => {
+   //? Dependencies
    const PF = process.env.REACT_APP_PUBLIC_FOLDER;
    const [users, setUsers] = useState([]);
    const { user: auth } = useAuthContext();
 
+   //? Get every user
    useEffect(() => {
       const getUsers = async () => {
          try {
-            const allUsers = await axios.get("api/users", {
+            const res = await axios.get("api/users", {
                headers: {
                   Authorization: `Bearer ${auth.token}`,
                },
             });
-            setUsers(allUsers.data);
+            setUsers(res.data);
          } catch (error) {
             console.log({ message: error.message });
          }
