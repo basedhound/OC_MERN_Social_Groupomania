@@ -1,35 +1,49 @@
-Illustration openclassrooms
 
-# À l'attention de l'examinateur
-
-
-
+![logo](./etc/openclassrooms.png)
 
 # Groupomania (Social application)
 
 Septième et dernier projet du parcours "Développeur web" chez OpenClassrooms. L'objectif est de construire un réseau social.
 
-- Créez un réseau social d’entreprise
+- [Créez un réseau social d’entreprise](./etc/groupomania_mission.pdf)
 
-- [Cahier des charges](./notes/Piiquante%20-%20Cahier%20des%20charges.pdf)
+- [Cahier des charges](./etc/groupomania_cahier-des-charges.pdf)
 
-- [Aspect visuel du site](./notes/Piiquante%20-%20Aspect%20visuel.pdf)
 
-![screenshot](./notes/Piiquante%20-%20readme%20cover.jpg)
+- [Aspect visuel du site](./etc/groupomania_visuals.pdf)
+
+![screenshot](./etc/groupomania.jpeg)
 
 <br>
 
 # Lancement
 
-Prérequis  : Node.js et YARN installés sur votre ordinateur
+## À l'attention de l'examinateur
 
-- 1 : Installation de l'API (Back-end) : Dans le dossier "api", lancez "YARN" depuis votre environnement de développement/Terminal afin d'installer les dépendances.
+Par convention je n'ai pas uploadé sur github les fichiers **.env** de ce projet. 
 
-- 2 : Lancement de l'API : Une fois les dépendances installées, toujours dans le dossier "api", lancez le script "yarn start" depuis votre environnement de développement/Terminal. Ce script exécute la commande "nodemon index.js". Votre terminal devrait indiquer que le serveur est lancé sur le port 5000 (par défaut).
+Il y en a un à la racine de chaque dossier (api/client).
 
--  3 : Installation de l'application React (Front-end) : Depuis le dossier "client", lancez "YARN" depuis votre environnement de développement/Terminal afin d'installer les dépendances. 
+Je les ai remplacés par des fichiers **sample.env** en guise d'indication.
 
-- 4 : Lancement de l'application React : Une fois les dépendances installées, toujours dans le dossier "client", lancez le script "yarn start" depuis votre environnement de développement/Terminal. L'application devrait se lancer sur [localhost port 3000](http://localhost:3000/) (par défaut). 
+Une fois le projet installé, avant de le lancer, il faudra renommer ces deux fichiers **sample.env** => **.env**
+
+Les informations à compléter se trouvent dans mes livrables dans le fichier **env.txt**
+
+## API - Backend
+
+Prérequis  : `Node.js` et `YARN` installés sur votre ordinateur
+
+- 1 : Installation : Depuis le dossier **api**, écrivez `yarn` dans votre environnement de développement/Terminal afin d'installer les dépendances. N'oubliez pas de renommer le fichier **sample.env** en **.env** et de remplir les variables grâce à la note **env.txt** des livrables.
+
+
+- 2 : Lancement : Une fois les dépendances installées, toujours depuis le dossier **api**, lancez le script `yarn start` dans votre environnement de développement/Terminal. Votre terminal devrait indiquer que le serveur est lancé sur le port 5000 (par défaut).
+
+## Client - Frontend
+
+-  1 : Installation : Depuis le dossier **client**, écrivez `yarn` dans votre environnement de développement/Terminal afin d'installer les dépendances. N'oubliez pas de renommer le fichier **sample.env** en **.env** et de remplir les variables grâce à la note **env.txt** des livrables. 
+
+- 2 : Lancement : Une fois les dépendances installées, toujours depuis le dossier **client**, lancez le script `yarn start` dans votre environnement de développement/Terminal. L'application devrait se lancer sur [localhost port 3000](http://localhost:3000/) (par défaut). 
 
 <br>
 
