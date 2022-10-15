@@ -122,7 +122,7 @@ input::placeholder {
 
 .sidebar {
 	position: fixed;
-	display: block;
+	display: none;
 	max-width: 400px;
 	opacity: 0;
 	z-index: 10;
@@ -136,18 +136,33 @@ input::placeholder {
 	pointer-events: none;
 }
 
-.visible {
-   transform: translateX(0);
-   opacity: 1;
-   pointer-events: all;
-   box-shadow: 0 10px 100px rgb(0, 0, 0);
+/* Reponsive : Media queries */
+
+@media (max-width: 1200px) {
+	.sidebar {
+		display: block;
+	}
+	.visible {
+		transform: translateX(0);
+		opacity: 1;
+		pointer-events: all;
+		box-shadow: 0 10px 100px rgb(0, 0, 0);
+	}
 }
 
-/* Reponsive : Media queries */
 @media (max-width: 800px) {
 	.container {
 		padding-inline: 0.75rem;
 		max-width: 500px;
+	}
+	.sidebar {
+		display: block;
+	}
+	.visible {
+		transform: translateX(0);
+		opacity: 1;
+		pointer-events: all;
+		box-shadow: 0 10px 100px rgb(0, 0, 0);
 	}
 }
 

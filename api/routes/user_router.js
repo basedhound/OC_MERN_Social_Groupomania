@@ -16,7 +16,7 @@ const router = express.Router();
 // })
 
 //? Routes
-router.use(auth);
+router.use(auth); // middleware
 router.get("/", getUsers);
 router.get("/:id", getUser);
 router.put("/:id", updateUser);

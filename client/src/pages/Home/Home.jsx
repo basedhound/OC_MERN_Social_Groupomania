@@ -1,6 +1,6 @@
 // Components
 import ProfileCard from "../../components/ProfileCard/ProfileCard";
-import PostShare from "../../components/PostShare/PostShare";
+import PostCreate from "../../components/PostCreate/PostCreate";
 import Posts from "../../components/Post/Posts";
 import Online from "../../components/Online/Online";
 // Style
@@ -13,7 +13,7 @@ const Home = () => {
             <ProfileCard />
          </div>
          <main className="home__center">
-            <PostShare />
+            <PostCreate />
             <Posts />
          </main>
          <aside className="home__right">

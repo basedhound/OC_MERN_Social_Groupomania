@@ -64,7 +64,6 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
                   },
                }
             );
-            console.log(res.data);
             dispatch({ type: "UPDATE_POST", payload: res.data });
             setUpdatePostModal(false);
             setFile(null);
@@ -83,6 +82,7 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
          }
          overlayOpacity={0.55}
          overlayBlur={3}
+         size="45rem"
          background-color="white"
          opened={updatePostModal}
          onClose={() => setUpdatePostModal(false)}>

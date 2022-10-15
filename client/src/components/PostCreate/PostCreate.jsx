@@ -4,7 +4,7 @@ import { usePostsContext } from "../../hooks/usePostsContext";
 import { useAuthContext } from "../../hooks/useAuthContext";
 //Style
 import { sendIcon, fileIcon, closeIcon } from "../../assets";
-import "./postshare.css";
+import "./postcreate.css";
 
 const CreatePost = () => {
    //? Context
