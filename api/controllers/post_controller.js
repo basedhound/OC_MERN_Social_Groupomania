@@ -26,7 +26,7 @@ export const updatePost = async (req, res) => {
    try {
       const post = await Post.findById(postId);
       if (admin || post.userId === userId) {
-         if (req.body.image && post.image) {
+         if (req.body.image && post.image || post.image ) {
             const filename = post.image.split("public/images/")[0];
             fs.unlink(`public/images/${filename}`, () => {});
          }

@@ -1,7 +1,7 @@
 
 ![logo](./etc/openclassrooms.png)
 
-# Groupomania (Social application)
+# Groupomania
 
 Septième et dernier projet du parcours "Développeur web" chez OpenClassrooms. L'objectif est de construire un réseau social.
 

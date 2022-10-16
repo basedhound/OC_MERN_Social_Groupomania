@@ -47,7 +47,7 @@ useEffect(() => {
    const { password, email, firstname, lastname, about, ...userDetails } = data;
    const [formData, setFormData] = useState(userDetails);
 
-   const handleSubmit = async (e) => {
+   const updateUserPicture = async (e) => {
       e.preventDefault();
       try {
          if (file) {
@@ -75,11 +75,9 @@ useEffect(() => {
                },
             }
          );
-         console.log(res.data);
          dispatch({ type: "UPDATE", payload: res.data });
          setUserPictureModal(false);
          setFile(null);
-         // window.location.reload();
       } catch (error) {
          console.log({ message: error.message });
       }
@@ -130,11 +128,17 @@ useEffect(() => {
                   onChange={handleImages}
                />
             </div>
-
-            <button type="submit" onClick={handleSubmit}>
-               Confirmer
+            {file !== null ? (
+            <button type="submit" onClick={updateUserPicture}>
+               Modifier
             </button>
+            ) : (
+               <button disabled type="submit" onClick={updateUserPicture}>
+               Modifier
+            </button>
+               )}
          </form>
+         
       </Modal>
    );
 }
