@@ -28,7 +28,8 @@ Je les ai remplacés par des fichiers **sample.env** en guise d'indication.
 
 Une fois le projet installé, avant de le lancer, il faudra renommer ces deux fichiers **sample.env** => **.env**
 
-Les informations à compléter se trouvent dans le premier livrable **Nom_Prenom_1_code_092022.pdf**.  
+Les informations à compléter se trouvent dans le premier livrable **Nom_Prenom_1_code_092022.txt**. 
++ Attention lors du copier/coller des variables d'environnement, vérifier que l'uri mongoDB n'est pas cassée (saut de ligne intempestif)
 
 Les images des posts / photos d'utilisateurs ont été temporairement uploadés pour la présentation.
 

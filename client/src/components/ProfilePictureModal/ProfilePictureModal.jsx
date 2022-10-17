@@ -96,7 +96,7 @@ function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
          <form className="modal-details">
             {file === null ? (
                <img
-                  src={user.profilePicture ? PF + user.profilePicture : { dp }}
+                  src={user.profilePicture !== "" ? PF + user.profilePicture : dp}
                   alt="Votre photo de profil"
                   className="modal-picture roundimage"
                />
