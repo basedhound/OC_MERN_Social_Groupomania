@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // Hooks
 import { useAuthContext } from "./../../hooks/useAuthContext";
 import { usePostsContext } from "../../hooks/usePostsContext";
@@ -100,7 +100,7 @@ const Post = ({ post }) => {
             {/* <Link to="/"> */}
                <img
                   src={user.profilePicture ? PF + user.profilePicture : dp}
-                  alt="photo utilisateur"
+                  alt="utilisateur"
                   className="post__dp roundimage"
                />
             {/* </Link> */}

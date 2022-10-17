@@ -77,7 +77,7 @@ const CreatePost = () => {
             />
             {file && (
                <div className="uploaded-image">
-                  <img src={URL.createObjectURL(file)} />
+                  <img src={URL.createObjectURL(file)} alt="aperçu" />
                   <div className="close-icon" onClick={() => setFile(null)}>
                      {<img src={closeIcon} alt="remove" />}
                   </div>
@@ -89,7 +89,7 @@ const CreatePost = () => {
                   <div>
                      <img
                         src={fileIcon}
-                        aria-label="choisir une image"
+                        aria-label="choisir"
                         onClick={() => imageRef.current.click()}
                      />
                   </div>

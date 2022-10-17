@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 // Style
 import { dp } from "../../assets";
 import "./online.css";
@@ -35,25 +35,23 @@ const Online = () => {
          {users &&
             users.map((user) => (
                // <Link to="/" key={user._id}>
-                  <div className="user">
-                     <div>
-                        <img
-                           src={
-                              user.profilePicture
-                                 ? PF + user.profilePicture
-                                 : dp
-                           }
-                           aria-label={
-                              "Visiter profil de" +
-                              user.firstname +
-                              " " +
-                              user.lastname
-                           }
-                           className="roundimage"
-                        />
-                     </div>
-                     <h3>{user.firstname + " " + user.lastname}</h3>
+               <div className="user">
+                  <div>
+                     <img
+                        src={
+                           user.profilePicture ? PF + user.profilePicture : dp
+                        }
+                        aria-label={
+                           "Visiter profil de" +
+                           user.firstname +
+                           " " +
+                           user.lastname
+                        }
+                        className="roundimage"
+                     />
                   </div>
+                  <h3>{user.firstname + " " + user.lastname}</h3>
+               </div>
                // </Link>
             ))}
       </section>

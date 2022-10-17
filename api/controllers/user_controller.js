@@ -36,7 +36,6 @@ export const getUser = async (req, res) => {
 export const updateUser = async (req, res) => {
    const id = req.params.id;
    const { _id, admin } = req.body;
-   console.log(req.body.profilePicture)
 
    if (id === _id || admin) {
       try {

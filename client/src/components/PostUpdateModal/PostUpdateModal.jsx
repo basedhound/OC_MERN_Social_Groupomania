@@ -54,15 +54,11 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
             } else {
                updatePost.image = null;
             }
-            const res = await axios.put(
-               "/api/posts/" + `${data._id}`,
-               updatePost,
-               {
-                  headers: {
-                     Authorization: `Bearer ${auth.token}`,
-                  },
-               }
-            );
+            const res = await axios.put(`/api/posts/${data._id}`, updatePost, {
+               headers: {
+                  Authorization: `Bearer ${auth.token}`,
+               },
+            });
             dispatch({ type: "UPDATE_POST", payload: res.data });
             setUpdatePostModal(false);
             setFile(null);
@@ -97,12 +93,9 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
                />
                {file && (
                   <div className="uploaded-image">
-                     <img
-                        src={URL.createObjectURL(file)}
-                        alt="image du message"
-                     />
+                     <img src={URL.createObjectURL(file)} alt="preview" />
                      <div className="close-icon" onClick={() => setFile(null)}>
-                        {<img src={closeIcon} alt="remove" />}
+                        {<img src={closeIcon} alt="supprimer" />}
                      </div>
                   </div>
                )}
@@ -112,7 +105,7 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
                      <div>
                         <img
                            src={fileIcon}
-                           aria-label="select file"
+                           aria-label="choisir fichier"
                            onClick={() => imageRef.current.click()}
                         />
                      </div>
@@ -126,7 +119,7 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
                      onChange={onImageChange}
                   />
                   <button type="submit" aria-label="submit">
-                     <img src={sendIcon} alt="send" />
+                     <img src={sendIcon} alt="confirmer" />
                   </button>
                </div>
             </form>

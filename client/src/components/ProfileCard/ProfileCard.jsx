@@ -52,7 +52,7 @@ const ProfileCard = () => {
             <div>
                <img
                   src={user.profilePicture ? PF + user.profilePicture : dp}
-                  alt="Photo de profil"
+                  alt="utilisateur"
                   name="profilePicture"
                   className="profilecard__dp roundimage"
                />
@@ -61,7 +61,7 @@ const ProfileCard = () => {
                      <img
                         className="pp-icon"
                         src={cameraIcon}
-                        alt="Modifier photo de profil"
+                        alt="modifier"
                         onClick={() => setUserPictureModal(true)}
                      />                  
                   <ProfilePictureModal

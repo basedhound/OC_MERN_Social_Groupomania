@@ -23,7 +23,7 @@ function ProfileDetailsModal({ modalDetails, setModalDetails, data }) {
       e.preventDefault();
       try {
          const res = await axios.put(
-            "/api/users/" + `${auth.user._id}`,
+            `/api/users/${auth.user._id}`,
             userData,
             {
                headers: {
