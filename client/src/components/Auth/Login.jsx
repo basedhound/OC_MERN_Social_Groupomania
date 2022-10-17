@@ -14,10 +14,11 @@ const Login = ({ setIsRegistering }) => {
 
    return (
       <form onSubmit={handleSubmit} className="login">
-         <img src={logo} alt="logo" className="auth-logo" />
+         <img src={logo} alt="logo groupomania" className="auth-logo" />
 
          <label htmlFor="login-email">Email</label>
          <input
+         id="login-email"
             type="email"
             placeholder=""
             value={email}
@@ -27,6 +28,7 @@ const Login = ({ setIsRegistering }) => {
 
          <label htmlFor="login-password">Mot de passe</label>
          <input
+         id="login-password"
             required
             type="password"
             placeholder=""

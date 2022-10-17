@@ -93,10 +93,14 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
                   name="desc"
                   onChange={handleDetails}
                   value={updatePost.desc}
+                  aria-label="modifier votre message ici"
                />
                {file && (
                   <div className="uploaded-image">
-                     <img src={URL.createObjectURL(file)} />
+                     <img
+                        src={URL.createObjectURL(file)}
+                        alt="image du message"
+                     />
                      <div className="close-icon" onClick={() => setFile(null)}>
                         {<img src={closeIcon} alt="remove" />}
                      </div>
@@ -104,17 +108,18 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
                )}
 
                <div className="btns">
-                  <label htmlFor={"image"} aria-label="select file">
+                  <label htmlFor={"updatedPost-image"}>
                      <div>
                         <img
                            src={fileIcon}
-                           alt="select file"
+                           aria-label="select file"
                            onClick={() => imageRef.current.click()}
                         />
                      </div>
                   </label>
 
                   <input
+                     // id="updatedPost-image"
                      type="file"
                      accept="image/png, image/jpeg, image/jpg, image/webp"
                      ref={imageRef}

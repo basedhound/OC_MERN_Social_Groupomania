@@ -13,24 +13,23 @@ function ProfilePictureModal({ userPictureModal, setUserPictureModal, data }) {
    const { user: auth } = useAuthContext();
    const { dispatch } = useAuthContext();
 
-//? Get current user's details
-const [user, setUser] = useState({});
-useEffect(() => {
-   const fetchUser = async () => {
-      const response = await fetch(`/api/users/${auth.user._id}`, {
-         method: "GET",
-         body: JSON.stringify(),
-         headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${auth.token}`,
-         },
-      });
-      const json = await response.json();
-      setUser(json);
-   };
-   fetchUser();
-}, [auth.user._id, auth.token]);
-
+   //? Get current user's details
+   const [user, setUser] = useState({});
+   useEffect(() => {
+      const fetchUser = async () => {
+         const response = await fetch(`/api/users/${auth.user._id}`, {
+            method: "GET",
+            body: JSON.stringify(),
+            headers: {
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${auth.token}`,
+            },
+         });
+         const json = await response.json();
+         setUser(json);
+      };
+      fetchUser();
+   }, [auth.user._id, auth.token]);
 
    //? Handle user's image
    const imageRef = useRef();
@@ -94,51 +93,51 @@ useEffect(() => {
          overlayBlur={3}
          opened={userPictureModal}
          onClose={() => setUserPictureModal(false)}>
-         <form action="" className="modal-details">
+         <form className="modal-details">
             {file === null ? (
                <img
-                  src={user.profilePicture ? PF + user.profilePicture : {dp}}
-                  alt="profile_image"
+                  src={user.profilePicture ? PF + user.profilePicture : { dp }}
+                  alt="Votre photo de profil"
                   className="modal-picture roundimage"
                />
             ) : (
                <img
                   src={URL.createObjectURL(file)}
-                  alt="profile_image"
+                  alt="Votre image de profil"
                   className="modal-picture roundimage"
                />
             )}
 
             <div>
-               <label htmlFor={"image"} aria-label="select file">
+               <label htmlFor={"profile-picture"}>
                   <div>
                      <img
                         src={fileIcon}
-                        alt="select file"
+                        aria-label="choisir une image de profil"
                         onClick={() => imageRef.current.click()}
                      />
                   </div>
                </label>
 
                <input
+                  // id="profile-picture"
                   type="file"
                   accept="image/png, image/jpeg, image/webp"
-                  name="profilePicture"
                   ref={imageRef}
                   onChange={handleImages}
                />
             </div>
+
             {file !== null ? (
-            <button type="submit" onClick={updateUserPicture}>
-               Modifier
-            </button>
+               <button type="submit" onClick={updateUserPicture}>
+                  Modifier
+               </button>
             ) : (
                <button disabled type="submit" onClick={updateUserPicture}>
-               Modifier
-            </button>
-               )}
+                  Modifier
+               </button>
+            )}
          </form>
-         
       </Modal>
    );
 }

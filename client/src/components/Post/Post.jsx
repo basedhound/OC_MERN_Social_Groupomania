@@ -97,13 +97,13 @@ const Post = ({ post }) => {
    return (
       <article className="post halfborder single" /*"gradient-border"*/>
          <header>
-            <Link to="/">
+            {/* <Link to="/"> */}
                <img
                   src={user.profilePicture ? PF + user.profilePicture : dp}
-                  alt="profileImage"
+                  alt="photo utilisateur"
                   className="post__dp roundimage"
                />
-            </Link>
+            {/* </Link> */}
             <div>
                <h3>
                   {user.firstname || user.lastname

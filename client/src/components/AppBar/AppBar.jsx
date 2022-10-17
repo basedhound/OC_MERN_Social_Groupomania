@@ -46,13 +46,12 @@ const AppBar = () => {
 
    return (
       <div className="appbar--container">
-         <img src={logo} alt="logo" />
+         <img src={logo} alt="logo groupomania" />
          <header className="appbar topZ">
-            <div className="hamburger" onClick={showSidebar}>
+            <div className="hamburger" onClick={showSidebar} title="Utilisateurs">
                <img
-                  src={sidebar ? closeIcon : hamburger}
-                  alt="Utilisateurs"
-                  title="Utilisateurs"
+                  src={sidebar ? closeIcon : hamburger}                  
+                  aria-label="voir liste utilisateurs"
                />
             </div>
             <div className={sidebar ? "sidebar visible" : "sidebar"}>
@@ -67,23 +66,26 @@ const AppBar = () => {
                />
             </Link>
             <form /* onSubmit={} */ className="searchform">
-               <button disabled type="submit" aria-label="search">
+               <button disabled type="submit" aria-label="lancer recherche">
                   <img src={searchIcon} alt="search" />
                </button>
                <input
                   type="text"
                   placeholder="Rechercher..." /* value={} */ /* onChange={} */
+                  aria-label="ecrire recherche"
                />
-               <button /* onClick={}*/ type="button" aria-label="clear search">
+               <button
+                  /* onClick={}*/ type="button"
+                  aria-label="effacer recherche">
                   {/* <img src={closeIcon} alt="close" className="close" /> */}
                </button>
             </form>
             <nav className="appbar__profile">
-               <Link to="/">
+               {/* <Link to=""> */}
                   <img
-                     src={user.profilePicture ? PF + user.profilePicture : dp}
-                     alt="profileImage"
+                     src={user.profilePicture ? PF + user.profilePicture : dp}                     
                      className="appbar__profile__dp"
+                     alt="aller à votre page de profil"
                      title="Profil"
                      onClick={() => {
                         window.scrollTo({
@@ -93,15 +95,15 @@ const AppBar = () => {
                         });
                      }}
                   />
-               </Link>
-               <Link to="/">
+               {/* </Link> */}
+               {/* <Link to=""> */}
                   <img
                      src={chatIcon}
                      alt="chat"
                      className="chat"
                      title="Chat"
                   />
-               </Link>
+               {/* </Link> */}
             </nav>
          </header>
       </div>

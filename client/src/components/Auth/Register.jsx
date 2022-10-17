@@ -18,13 +18,14 @@ const Register = ({ setIsRegistering }) => {
 
    return (
       <form onSubmit={handleSubmit} className="register">
-         <img src={logo} alt="logo" className="auth-logo" />
+         <img src={logo} alt="logo groupomania" className="auth-logo" />
 
          <div className="firstname-lastname-container">
             <div className="name-wrapper">
                <label htmlFor="firstname">Prénom</label>
                <input
                   required
+                  id="firstname"
                   type="text"
                   placeholder="James"
                   value={firstname}
@@ -36,6 +37,7 @@ const Register = ({ setIsRegistering }) => {
                <label htmlFor="lastname">Nom</label>
                <input
                   required
+                  id="lastname"
                   type="text"
                   placeholder="Bond"
                   value={lastname}
@@ -48,16 +50,18 @@ const Register = ({ setIsRegistering }) => {
          <label htmlFor="email">Email</label>
          <input
             required
+            id="email"            
             type="email"
             placeholder="jamesbond@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"            
+            pattern="^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$"
             />
 
          <label htmlFor="password">Mot de passe</label>
          <input
             required
+            id="password"
             type="password"
             placeholder="Mix de 8 chiffres & lettres minimum"
             value={password}
@@ -65,9 +69,10 @@ const Register = ({ setIsRegistering }) => {
             pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
 
          />
-         <label htmlFor="password">Confirmer mot de passe</label>
+         <label htmlFor="confirmPassword">Confirmer mot de passe</label>
          <input
             required
+            id="confirmPassword"
             type="password"
             placeholder="Mix de 8 chiffres & lettres minimum"
             value={passwordConfirm}

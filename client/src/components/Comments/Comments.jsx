@@ -10,11 +10,12 @@ const Comments = () => {
          <input
             type="text"
             placeholder="Ecrire un commentaire..."
+            aria-label="Ecrire un commentaire ici"
             /* value={} */
             /* onChange={} */
             /* onFocus={} */
          />
-         <button disabled type="submit" aria-label="submit" title="Fonction désactivée">
+         <button disabled type="submit" aria-label="confirmer commentaire" title="Fonction désactivée">
             <img src={sendIcon} alt="send comment" />
          </button>
       </form>

@@ -73,6 +73,7 @@ const CreatePost = () => {
                placeholder="Ecrire un message..."
                value={desc}
                onChange={(e) => setDesc(e.target.value)}
+               aria-label="ecrire votre message ici"
             />
             {file && (
                <div className="uploaded-image">
@@ -84,24 +85,26 @@ const CreatePost = () => {
             )}
 
             <div className="btns">
-               <label htmlFor={"image"} aria-label="select file">
+               <label htmlFor={"post-image"}>
                   <div>
                      <img
                         src={fileIcon}
-                        alt="select file"
+                        aria-label="choisir une image"
                         onClick={() => imageRef.current.click()}
                      />
                   </div>
                </label>
 
                <input
+                  // id="post-image"
                   type="file"
                   accept="image/png, image/jpeg, image/jpg, image/webp"
                   ref={imageRef}
                   onChange={onImageChange}
                />
-               <button type="submit" aria-label="submit">
-                  <img src={sendIcon} alt="send" />
+
+               <button type="submit" aria-label="confirmer message">
+                  <img src={sendIcon} alt="" />
                </button>
             </div>
          </form>

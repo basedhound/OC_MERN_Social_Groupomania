@@ -53,13 +53,16 @@ function ProfileDetailsModal({ modalDetails, setModalDetails, data }) {
          opened={modalDetails}
          onClose={() => setModalDetails(false)}>
          <form className="modal-details">
-            <input
+
+         <input
                type="text"
                className="modal-details__input"
                name="firstname"
                placeholder="Prénom"
                onChange={handleDetails}
                value={userData.firstname}
+               aria-label="Prénom"
+               
             />
             <input
                type="text"
@@ -68,14 +71,16 @@ function ProfileDetailsModal({ modalDetails, setModalDetails, data }) {
                placeholder="Nom"
                onChange={handleDetails}
                value={userData.lastname}
+               aria-label="Nom"
             />
             <input
                type="text"
                className="modal-details__input"
                name="about"
-               placeholder="Secteur"
+               placeholder="Activité"
                onChange={handleDetails}
                value={userData.about}
+               aria-label="Votre activité"
             />
             <button onClick={handleSubmit}>Confirmer</button>
          </form>

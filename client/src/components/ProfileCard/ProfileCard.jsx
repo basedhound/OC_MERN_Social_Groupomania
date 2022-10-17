@@ -57,15 +57,13 @@ const ProfileCard = () => {
                   className="profilecard__dp roundimage"
                />
 
-               <div className="pp-upload">
-                  <label htmlFor={"image"} aria-label="select file">
+               <div className="pp-upload">                  
                      <img
                         className="pp-icon"
                         src={cameraIcon}
                         alt="Modifier photo de profil"
                         onClick={() => setUserPictureModal(true)}
-                     />
-                  </label>
+                     />                  
                   <ProfilePictureModal
                      userPictureModal={userPictureModal}
                      setUserPictureModal={setUserPictureModal}

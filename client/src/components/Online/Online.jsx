@@ -34,7 +34,7 @@ const Online = () => {
          <h2>Utilisateurs ({users.length})</h2>
          {users &&
             users.map((user) => (
-               <Link to="/" key={user._id}>
+               // <Link to="/" key={user._id}>
                   <div className="user">
                      <div>
                         <img
@@ -43,13 +43,18 @@ const Online = () => {
                                  ? PF + user.profilePicture
                                  : dp
                            }
-                           alt="utilisateur"
+                           aria-label={
+                              "Visiter profil de" +
+                              user.firstname +
+                              " " +
+                              user.lastname
+                           }
                            className="roundimage"
                         />
                      </div>
                      <h3>{user.firstname + " " + user.lastname}</h3>
                   </div>
-               </Link>
+               // </Link>
             ))}
       </section>
    );
