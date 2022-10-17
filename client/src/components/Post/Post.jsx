@@ -8,7 +8,7 @@ import Comments from "../Comments/Comments";
 import PostOptionsModal from "../PostOptionsModal/PostOptionsModal";
 import PostUpdateModal from "../PostUpdateModal/PostUpdateModal";
 //Style
-import { format, /*formatDistanceToNow,*/ } from "date-fns";
+import { format /*formatDistanceToNow,*/ } from "date-fns";
 import { dp, likeIcon, likeOutlined } from "../../assets";
 import "./post.css";
 import axios from "axios";
@@ -37,9 +37,11 @@ const Post = ({ post }) => {
    //? Like system
    const [liked, setLiked] = useState(false);
    const [like, setLike] = useState(post.likes.length);
+
    useEffect(() => {
       setLiked(post.likes.includes(auth.user._id));
    }, [auth.user._id, post.likes]);
+
    const handleLikes = () => {
       axios.put(
          "/api/posts/" + post._id + "/like",
@@ -52,20 +54,19 @@ const Post = ({ post }) => {
       );
       setLike(liked ? like - 1 : like + 1);
       setLiked(!liked);
-      // dispatch({ type: "UPDATE_POST", payload: res.data });
    };
 
-     //? Delete Post
+
+   //? Delete Post
    const handleDelete = async () => {
       const req = {
          userId: auth.user._id,
          admin: auth.user.admin,
       };
       if (auth.user.admin || auth.user._id === post.userId) {
-      try {
+         try {
             const res = await axios.delete(
                `/api/posts/${post._id}`,
-
                {
                   data: req,
                   headers: {

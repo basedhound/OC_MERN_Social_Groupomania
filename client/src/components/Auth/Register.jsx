@@ -8,13 +8,11 @@ const Register = ({ setIsRegistering }) => {
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [passwordConfirm, setPasswordConfirm] = useState("");
-   // console.log({ firstname, lastname, email, password, passwordConfirm });
 
    const { register, error, isLoading } = useRegister();
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-
       await register(firstname, lastname, email, password);
    };
 
@@ -31,7 +29,7 @@ const Register = ({ setIsRegistering }) => {
                   placeholder="James"
                   value={firstname}
                   onChange={(e) => setFirstname(e.target.value)}
-                  // pattern="^(?![\s.]+$)[A-zÀ-ú\s\-]{1,25}$"
+                  pattern="^(?![\s.]+$)[A-zÀ-ú\s\-]{1,25}$"
                />
             </div>
             <div>

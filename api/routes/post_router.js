@@ -12,13 +12,8 @@ import auth from "../middleware/auth_mw.js";
 
 const router = express.Router();
 
-//? Test
-// router.get('/', async(req, res) => {
-//    res.send(" Post Router TEST")
-// })
-
 //? Routes
-router.use(auth);
+// router.use(auth);
 router.post("/", createPost);
 router.put("/:id", updatePost);
 router.delete("/:id", deletePost);
@@ -28,3 +23,10 @@ router.get("/", getPosts);
 router.get("/from/:id", getUserPosts);
 
 export default router;
+
+
+
+
+
+
+

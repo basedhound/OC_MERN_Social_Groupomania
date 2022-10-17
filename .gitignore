@@ -29,12 +29,8 @@ yarn-debug.log*
 yarn-error.log*
 
 # Security
-api/.env
-client/.env
-backend/.env
-frontend/.env
-back/.env
-front/.env
+.env
 
 # Various
 # images/
+thunder-tests

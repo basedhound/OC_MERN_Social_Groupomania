@@ -1,5 +1,5 @@
-import { createContext, useReducer } from "react";
 
+import { createContext, useReducer } from "react";
 export const PostsContext = createContext();
 
 export const postsReducer = (state, action) => {
@@ -27,7 +27,6 @@ export const postsReducer = (state, action) => {
                return action.payload;
             }),
          };
-
       default:
          return state;
    }
@@ -42,3 +41,6 @@ export const PostsContextProvider = ({ children }) => {
       </PostsContext.Provider>
    );
 };
+
+
+

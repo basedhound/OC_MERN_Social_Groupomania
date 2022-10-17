@@ -54,7 +54,6 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
             } else {
                updatePost.image = null;
             }
-
             const res = await axios.put(
                "/api/posts/" + `${data._id}`,
                updatePost,

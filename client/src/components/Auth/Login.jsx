@@ -9,11 +9,7 @@ const Login = ({ setIsRegistering }) => {
 
    const handleSubmit = async (e) => {
       e.preventDefault();
-
       await login(email, password);
-      // window.location.reload()
-
-      // console.log(email, password);
    };
 
    return (
@@ -26,8 +22,7 @@ const Login = ({ setIsRegistering }) => {
             placeholder=""
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
-            
+            required            
          />
 
          <label htmlFor="login-password">Mot de passe</label>

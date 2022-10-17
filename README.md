@@ -28,7 +28,9 @@ Je les ai remplacés par des fichiers **sample.env** en guise d'indication.
 
 Une fois le projet installé, avant de le lancer, il faudra renommer ces deux fichiers **sample.env** => **.env**
 
-Les informations à compléter se trouvent dans mes livrables dans le fichier **env.txt**
+Les informations à compléter se trouvent dans le premier livrable **Nom_Prenom_1_code_092022.pdf**.  
+
+Les images des posts / photos d'utilisateurs ont été temporairement uploadés pour la présentation.
 
 ## API - Backend
 

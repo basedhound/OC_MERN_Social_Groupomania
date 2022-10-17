@@ -2,16 +2,12 @@ import User from "../models/user_model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import cjs from "crypto-js";
-// import validator from "validator";
 
 //? Register
 export const register = async (req, res) => {
-   // const { email, password } = req.body;
-
    // email
    const cryptedMail = cjs.HmacSHA256(req.body.email, process.env.CJS_KEY);
    req.body.email = cryptedMail;
-
    // password
    const salt = await bcrypt.genSalt(10);
    const hashedPass = await bcrypt.hash(req.body.password, salt);
@@ -24,7 +20,6 @@ export const register = async (req, res) => {
       }
       user = await User.create({ ...req.body });
 
-      // token
       const token = jwt.sign(
          {
             email: user.email,
@@ -76,3 +71,4 @@ export const login = async (req, res) => {
       }
    }
 };
+

@@ -8,7 +8,6 @@ export const useLogin = () => {
 
    const login = async (email, password) => {
       setIsLoading(true);
-      // window.location.reload() //? Corrige problème likes
       setError(null);
 
       const response = await fetch('/api/auth/login', {
@@ -24,12 +23,12 @@ export const useLogin = () => {
       if (response.ok) {
          // save the user to local storage
          localStorage.setItem("user", JSON.stringify(json));
-
          // update auth context
          dispatch({type: 'LOGIN', payload: json})
-
          setIsLoading(false)
       }
    };
    return {login, isLoading, error} 
 };
+
+

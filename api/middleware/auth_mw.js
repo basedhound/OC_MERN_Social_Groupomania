@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import User from "../models/user_model.js";
 
 const requireAuth = async (req, res, next) => {
    const { authorization } = req.headers;
@@ -10,7 +9,6 @@ const requireAuth = async (req, res, next) => {
 
    try {
       const token = authorization.split(" ")[1];
-
       const decodedToken = jwt.verify(token, process.env.JWT_KEY);
       const userId = decodedToken.userId;
       req.auth = {
@@ -23,3 +21,8 @@ const requireAuth = async (req, res, next) => {
 };
 
 export default requireAuth;
+
+
+
+
+

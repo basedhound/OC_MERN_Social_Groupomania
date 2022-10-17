@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const UserSchema = new mongoose.Schema(
    {
       admin: {
@@ -33,10 +32,6 @@ const UserSchema = new mongoose.Schema(
          type: String,
          default: "",
       },
-      location: {
-         type: String,
-         maxlength: 20,
-      },
       about: {
          type: String,
          maxlength: 20,
@@ -45,6 +40,10 @@ const UserSchema = new mongoose.Schema(
    },
    { timestamps: true }
 );
-
 const UserModel = mongoose.model("User", UserSchema);
 export default UserModel;
+
+
+
+
+

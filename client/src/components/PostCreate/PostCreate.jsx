@@ -10,6 +10,7 @@ const CreatePost = () => {
    //? Context
    const { dispatch } = usePostsContext();
    const { user: auth } = useAuthContext();
+
    //? Post
    const imageRef = useRef();
    const [desc, setDesc] = useState("");
@@ -17,7 +18,6 @@ const CreatePost = () => {
 
    //? Preview image
    const onImageChange = (event) => {
-      console.log(event);
       if (event.target.files && event.target.files[0]) {
          let img = event.target.files[0];
          setFile(img);
@@ -27,11 +27,9 @@ const CreatePost = () => {
    //? Submit post
    const handleSubmit = async (e) => {
       e.preventDefault();
-
       if (desc === "" && file === null) {
          return;
       }
-
       const newPost = {
          userId: auth.user._id,
          desc: desc,
@@ -43,7 +41,6 @@ const CreatePost = () => {
          data.append("name", fileName);
          data.append("file", file);
          newPost.image = fileName;
-         console.log("test", file);
          try {
             await axios.post("/api/upload", data, {
                headers: {
@@ -102,7 +99,6 @@ const CreatePost = () => {
                   accept="image/png, image/jpeg, image/jpg, image/webp"
                   ref={imageRef}
                   onChange={onImageChange}
-                  // onClick={this.value= null}
                />
                <button type="submit" aria-label="submit">
                   <img src={sendIcon} alt="send" />

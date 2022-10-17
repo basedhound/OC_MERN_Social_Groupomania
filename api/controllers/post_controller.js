@@ -1,12 +1,9 @@
-import mongoose from "mongoose";
 import Post from "../models/post_model.js";
-import User from "../models/user_model.js";
-import fs, { unlink } from "fs";
+import fs from "fs";
 
-// //? Create
+//? Create
 export const createPost = async (req, res) => {
    const reqPost = req.body;
-
    const newPost = new Post({
       ...reqPost,
    });
@@ -18,7 +15,7 @@ export const createPost = async (req, res) => {
    }
 };
 
-// //? Update post
+//? Update
 export const updatePost = async (req, res) => {
    const postId = req.params.id;
    const { userId, admin } = req.body;
@@ -26,7 +23,7 @@ export const updatePost = async (req, res) => {
    try {
       const post = await Post.findById(postId);
       if (admin || post.userId === userId) {
-         if (req.body.image && post.image || post.image ) {
+         if ((req.body.image && post.image) || post.image) {
             const filename = post.image.split("public/images/")[0];
             fs.unlink(`public/images/${filename}`, () => {});
          }

@@ -23,12 +23,12 @@ export const useRegister = () => {
       if (response.ok) {
          // save the user to local storage
          localStorage.setItem("user", JSON.stringify(json));
-
          // update auth context
          dispatch({type: 'LOGIN', payload: json})
-
          setIsLoading(false)
       }
    };
    return {register, isLoading, error} 
 };
+
+

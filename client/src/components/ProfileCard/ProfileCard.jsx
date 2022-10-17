@@ -29,7 +29,7 @@ const ProfileCard = () => {
    //? Get current user
    const [user, setUser] = useState({});
    useEffect(() => {
-      const fetchUser = async () => {
+      const getUser = async () => {
          const res = await axios.get(`/api/users/${auth.user._id}`, {
             headers: {
                Authorization: `Bearer ${auth.token}`,
@@ -37,7 +37,7 @@ const ProfileCard = () => {
          });
          setUser(res.data);
       };
-      fetchUser();
+      getUser();
    }, [auth.user._id, auth.token]);
 
    //? Logout

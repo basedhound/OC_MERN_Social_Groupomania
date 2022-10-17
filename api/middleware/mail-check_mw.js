@@ -12,3 +12,5 @@ const validEmail = (req, res, next) => {
 };
 
 export default validEmail
+
+
