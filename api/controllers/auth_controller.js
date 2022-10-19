@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import cjs from "crypto-js";
 
 //? Register
-export const register = async (req, res) => {
+export const register = async (req, res) => {   
    // email
    const cryptedMail = cjs.HmacSHA256(req.body.email, process.env.CJS_KEY);
    req.body.email = cryptedMail;
@@ -15,11 +15,13 @@ export const register = async (req, res) => {
 
    try {
       let user = await User.findOne({ email: cryptedMail.toString() });
+      // console.log(user)
       if (user) {
          return res.status(400).json({ message: "Email already in use" });
+         
       }
       user = await User.create({ ...req.body });
-
+      // console.log(req.body)
       const token = jwt.sign(
          {
             email: user.email,
