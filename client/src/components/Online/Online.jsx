@@ -33,9 +33,9 @@ const Online = () => {
       <section className="online">
          <h2>Utilisateurs ({users.length})</h2>
          {users &&
-            users.map((user) => (
-               // <Link to="/" key={user._id}>
-               <div className="user">
+            users.map((user) =>  (
+               // <Link to="/" key={user._id}>               
+               <div className="user" key={user._id}>
                   <div>
                      <img
                         src={

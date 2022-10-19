@@ -18,20 +18,20 @@ const Login = ({ setIsRegistering }) => {
 
          <label htmlFor="login-email">Email</label>
          <input
-         id="login-email"
+            id="login-email"
             type="email"
-            placeholder=""
+            placeholder="jamesbond@gmail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required            
+            required
          />
 
          <label htmlFor="login-password">Mot de passe</label>
          <input
-         id="login-password"
+            id="login-password"
             required
             type="password"
-            placeholder=""
+            placeholder="Secret"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
          />

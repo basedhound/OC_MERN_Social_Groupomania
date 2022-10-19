@@ -33,7 +33,9 @@ function PostUpdateModal({ updatePostModal, setUpdatePostModal, data }) {
    //? Submit updated post
    const handleSubmit = async (e) => {
       e.preventDefault();
-      updatePost.admin = auth.user.admin;
+      if (updatePost.desc === "" && file === null) {
+         return;
+      }
       if (auth.user.admin || auth.user._id === data.userId) {
          try {
             if (file) {

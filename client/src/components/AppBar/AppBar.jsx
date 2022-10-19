@@ -85,7 +85,7 @@ const AppBar = () => {
                   <img
                      src={user.profilePicture ? PF + user.profilePicture : dp}                     
                      className="appbar__profile__dp"
-                     alt="aller à votre page de profil"
+                     alt="visiter votre profil"
                      title="Profil"
                      onClick={() => {
                         window.scrollTo({
